@@ -1,6 +1,6 @@
 Name:           hivex
 Version:        1.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -10,6 +10,11 @@ Source0:        http://libguestfs.org/download/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl
+BuildRequires:  perl-Test-Simple
+BuildRequires:  perl-Test-Pod
+BuildRequires:  perl-Test-Pod-Coverage
+BuildRequires:  perl-ExtUtils-MakeMaker
+BuildRequires:  perl-libintl
 BuildRequires:  ocaml
 BuildRequires:  ocaml-findlib-devel
 BuildRequires:  readline-devel
@@ -172,7 +177,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Mar  1 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.0-1
+* Mon Mar  1 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.0-2
 - New upstream version 1.2.0.
 - This includes OCaml and Perl bindings, so add these as subpackages.
 
