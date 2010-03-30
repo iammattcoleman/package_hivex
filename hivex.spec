@@ -1,6 +1,6 @@
 Name:           hivex
-Version:        1.2.0
-Release:        2%{?dist}
+Version:        1.2.1
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -14,6 +14,7 @@ BuildRequires:  perl-Test-Simple
 BuildRequires:  perl-Test-Pod
 BuildRequires:  perl-Test-Pod-Coverage
 BuildRequires:  perl-ExtUtils-MakeMaker
+BuildRequires:  perl-IO-stringy
 BuildRequires:  perl-libintl
 BuildRequires:  ocaml
 BuildRequires:  ocaml-findlib-devel
@@ -32,6 +33,9 @@ and write to these files.
 
 'hivexsh' is a shell you can use to interactively navigate a hive
 binary file.
+
+'hivexregedit' lets you export and merge to the textual regedit
+format.
 
 'hivexml' can be used to convert a hive file to a more useful XML
 format.
@@ -134,10 +138,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc README LICENSE
 %{_bindir}/hivexget
 %{_bindir}/hivexml
+%{_bindir}/hivexregedit
 %{_bindir}/hivexsh
 %{_libdir}/libhivex.so.*
 %{_mandir}/man1/hivexget.1*
 %{_mandir}/man1/hivexml.1*
+%{_mandir}/man1/hivexregedit.1*
 %{_mandir}/man1/hivexsh.1*
 
 
@@ -174,9 +180,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{perl_vendorarch}/*
 %{_mandir}/man3/Win::Hivex.3pm*
+%{_mandir}/man3/Win::Hivex::Regedit.3pm*
 
 
 %changelog
+* Tue Mar 30 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.1-1
+- New upstream version 1.2.1.
+- Includes new tool for exporting and merging in regedit format.
+
 * Mon Mar  1 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.0-2
 - New upstream version 1.2.0.
 - This includes OCaml and Perl bindings, so add these as subpackages.
