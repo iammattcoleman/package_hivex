@@ -1,6 +1,6 @@
 Name:           hivex
 Version:        1.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -184,6 +184,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Apr 29 2010 Marcela Maslanova <mmaslano@redhat.com> - 1.2.2-2
+- Mass rebuild with perl-5.12.0
+
 * Wed Apr 28 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.2-1
 - New upstream version 1.2.2.
 
