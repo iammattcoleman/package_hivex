@@ -1,6 +1,6 @@
 Name:           hivex
 Version:        1.2.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -65,6 +65,17 @@ Requires:       pkgconfig
 for %{name}.
 
 
+%package static
+Summary:        Statically linked library for %{name}
+Group:          Development/Libraries
+Requires:       %{name} = %{version}-%{release}
+
+
+%description static
+%{name}-static contains the statically linked library
+for %{name}.
+
+
 %package -n ocaml-%{name}
 Summary:       OCaml bindings for %{name}
 Group:         Development/Libraries
@@ -105,7 +116,7 @@ perl-%{name} contains Perl bindings for %{name}.
 
 
 %build
-%configure --disable-static
+%configure
 make %{?_smp_mflags}
 
 
@@ -156,6 +167,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/hivex.pc
 
 
+%files static
+%defattr(-,root,root,-)
+%doc LICENSE
+%{_libdir}/libhivex.a
+
+
 %files -n ocaml-%{name}
 %defattr(-,root,root,-)
 %doc README
@@ -184,6 +201,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Aug 25 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.2-3
+- Create a hivex-static subpackage.
+
 * Thu Apr 29 2010 Marcela Maslanova <mmaslano@redhat.com> - 1.2.2-2
 - Mass rebuild with perl-5.12.0
 
