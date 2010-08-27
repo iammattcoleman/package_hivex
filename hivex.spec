@@ -1,6 +1,6 @@
 Name:           hivex
-Version:        1.2.2
-Release:        3%{?dist}
+Version:        1.2.3
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -201,6 +201,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Aug 27 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-1
+- New upstream version 1.2.3.
+
 * Wed Aug 25 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.2-3
 - Create a hivex-static subpackage.
 
