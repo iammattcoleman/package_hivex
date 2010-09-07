@@ -1,6 +1,13 @@
+# conditionalize Ocaml support
+%ifarch sparc64 s390 s390x
+%bcond_with ocaml
+%else
+%bcond_without ocaml
+%endif
+
 Name:           hivex
 Version:        1.2.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -16,8 +23,10 @@ BuildRequires:  perl-Test-Pod-Coverage
 BuildRequires:  perl-ExtUtils-MakeMaker
 BuildRequires:  perl-IO-stringy
 BuildRequires:  perl-libintl
+%if %{with ocaml}
 BuildRequires:  ocaml
 BuildRequires:  ocaml-findlib-devel
+%endif
 BuildRequires:  readline-devel
 BuildRequires:  libxml2-devel
 
@@ -76,6 +85,7 @@ Requires:       %{name} = %{version}-%{release}
 for %{name}.
 
 
+%if %{with ocaml}
 %package -n ocaml-%{name}
 Summary:       OCaml bindings for %{name}
 Group:         Development/Libraries
@@ -98,6 +108,7 @@ Requires:      ocaml-%{name} = %{version}-%{release}
 %description -n ocaml-%{name}-devel
 ocaml-%{name}-devel contains development libraries
 required to use the OCaml bindings for %{name}.
+%endif
 
 
 %package -n perl-%{name}
@@ -173,6 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libhivex.a
 
 
+%if %{with ocaml}
 %files -n ocaml-%{name}
 %defattr(-,root,root,-)
 %doc README
@@ -191,6 +203,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/ocaml/hivex/*.cmxa
 %{_libdir}/ocaml/hivex/*.cmx
 %{_libdir}/ocaml/hivex/*.mli
+%endif
 
 
 %files -n perl-%{name}
@@ -201,6 +214,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Sep  7 2010 Dan Horák <dan[at]danny.cz> - 1.2.3-2
+- conditionalize ocaml support
+
 * Fri Aug 27 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-1
 - New upstream version 1.2.3.
 
