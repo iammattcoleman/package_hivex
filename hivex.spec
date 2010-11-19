@@ -7,13 +7,14 @@
 
 Name:           hivex
 Version:        1.2.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
 License:        LGPLv2
 URL:            http://libguestfs.org/
 Source0:        http://libguestfs.org/download/%{name}-%{version}.tar.gz
+Patch0:         %{name}-1.2.3-dirs.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl
@@ -124,6 +125,7 @@ perl-%{name} contains Perl bindings for %{name}.
 
 %prep
 %setup -q
+%patch0 -p1 -b .dirs
 
 
 %build
@@ -214,6 +216,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Nov 19 2010 Dan Horák <dan[at]danny.cz> - 1.2.3-3
+- fix built with recent perl
+
 * Tue Sep  7 2010 Dan Horák <dan[at]danny.cz> - 1.2.3-2
 - conditionalize ocaml support
 
