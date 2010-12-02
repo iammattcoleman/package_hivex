@@ -6,14 +6,14 @@
 %endif
 
 Name:           hivex
-Version:        1.2.3
-Release:        3%{?dist}
+Version:        1.2.4
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
 License:        LGPLv2
 URL:            http://libguestfs.org/
-Source0:        http://libguestfs.org/download/%{name}-%{version}.tar.gz
+Source0:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz
 Patch0:         %{name}-1.2.3-dirs.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -28,6 +28,7 @@ BuildRequires:  perl-libintl
 BuildRequires:  ocaml
 BuildRequires:  ocaml-findlib-devel
 %endif
+BuildRequires:  python-devel
 BuildRequires:  readline-devel
 BuildRequires:  libxml2-devel
 
@@ -58,9 +59,11 @@ also provides a useful high-level tool called 'virt-win-reg' (based on
 hivex technology) which can be used to query specific registry keys in
 an existing Windows VM.
 
+For OCaml bindings, see 'ocaml-hivex-devel'.
+
 For Perl bindings, see 'perl-hivex'.
 
-For OCaml bindings, see 'ocaml-hivex-devel'.
+For Python bindings, see 'python-hivex'.
 
 
 %package devel
@@ -123,6 +126,18 @@ Requires:      perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $versio
 perl-%{name} contains Perl bindings for %{name}.
 
 
+%package -n python-%{name}
+Summary:       Python bindings for %{name}
+Group:         Development/Libraries
+Requires:      %{name} = %{version}-%{release}
+
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+
+%description -n python-%{name}
+python-%{name} contains Python bindings for %{name}.
+
+
 %prep
 %setup -q
 %patch0 -p1 -b .dirs
@@ -144,6 +159,16 @@ rm $RPM_BUILD_ROOT%{_libdir}/libhivex.la
 find $RPM_BUILD_ROOT -name perllocal.pod -delete
 find $RPM_BUILD_ROOT -name .packlist -delete
 find $RPM_BUILD_ROOT -name '*.bs' -delete
+
+# Remove unwanted Python files:
+rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.a
+rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
+
+if [ "$RPM_BUILD_ROOT%{python_sitearch}" != "$RPM_BUILD_ROOT%{python_sitelib}" ]; then
+   mkdir -p $RPM_BUILD_ROOT%{python_sitelib}
+   mv $RPM_BUILD_ROOT%{python_sitearch}/hivex.py* \
+     $RPM_BUILD_ROOT%{python_sitelib}/
+fi
 
 %find_lang %{name}
 
@@ -215,7 +240,20 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/Win::Hivex::Regedit.3pm*
 
 
+%files -n python-%{name}
+%defattr(-,root,root,-)
+%{python_sitearch}/*
+%{python_sitelib}/*.py
+%{python_sitelib}/*.pyc
+%{python_sitelib}/*.pyo
+
+
 %changelog
+* Thu Dec  2 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-1
+- New upstream version 1.2.4.
+- This adds Python bindings (python-hivex subpackage).
+- Fix Source0.
+
 * Fri Nov 19 2010 Dan Horák <dan[at]danny.cz> - 1.2.3-3
 - fix built with recent perl
 
