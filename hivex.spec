@@ -7,14 +7,13 @@
 
 Name:           hivex
 Version:        1.2.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
 License:        LGPLv2
 URL:            http://libguestfs.org/
 Source0:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz
-Patch0:         %{name}-1.2.3-dirs.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl
@@ -35,6 +34,12 @@ BuildRequires:  libxml2-devel
 # This library used to be part of libguestfs.  It won't install alongside
 # the old version of libguestfs that included this library:
 Conflicts:      libguestfs <= 1:1.0.84
+
+# Fix Perl directory install path.
+Patch0:         %{name}-1.2.3-dirs.patch
+
+# Fix segfault in OCaml binding of Hivex.value_value.
+Patch1:         0001-ocaml-Fix-segfault-in-Hivex.value_value-binding.patch
 
 
 %description
@@ -140,7 +145,9 @@ python-%{name} contains Python bindings for %{name}.
 
 %prep
 %setup -q
+
 %patch0 -p1 -b .dirs
+%patch1 -p1
 
 
 %build
@@ -249,6 +256,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Dec 16 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-2
+- Backport upstream patch to fix segfault in Hivex.value_value binding.
+
 * Thu Dec  2 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-1
 - New upstream version 1.2.4.
 - This adds Python bindings (python-hivex subpackage).
