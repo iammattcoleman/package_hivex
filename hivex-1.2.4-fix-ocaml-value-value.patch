@@ -1,0 +1,13 @@
+diff -ur hivex-1.2.4.old/ocaml/hivex_c.c hivex-1.2.4/ocaml/hivex_c.c
+--- hivex-1.2.4.old/ocaml/hivex_c.c	2010-11-26 18:12:20.000000000 +0000
++++ hivex-1.2.4/ocaml/hivex_c.c	2010-12-16 13:53:09.049192941 +0000
+@@ -813,7 +813,7 @@
+   Store_field (rv, 0, v);
+   v = caml_alloc_string (len);
+   memcpy (String_val (v), r, len);
+-  caml_modify (&Field (rv, 1), len);
++  caml_modify (&Field (rv, 1), v);
+   CAMLreturn (rv);
+ }
+ 
+Only in hivex-1.2.4/ocaml: hivex_c.c~
