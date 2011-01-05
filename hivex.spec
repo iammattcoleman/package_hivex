@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.2.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -256,6 +256,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan  5 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-4
+- Rebuild against OCaml 3.12.0.
+
 * Thu Dec 16 2010 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-3
 - Backport upstream patch to fix segfault in Hivex.value_value binding.
 
