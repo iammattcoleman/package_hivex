@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.2.4
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -171,11 +171,11 @@ find $RPM_BUILD_ROOT -name '*.bs' -delete
 rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.a
 rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
-if [ "$RPM_BUILD_ROOT%{python_sitearch}" != "$RPM_BUILD_ROOT%{python_sitelib}" ]; then
-   mkdir -p $RPM_BUILD_ROOT%{python_sitelib}
-   mv $RPM_BUILD_ROOT%{python_sitearch}/hivex.py* \
-     $RPM_BUILD_ROOT%{python_sitelib}/
-fi
+# Only install unversioned *.so file for Python bindings.
+rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.so
+mv $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.so.0.0.0 \
+   $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.so
+rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.so.0*
 
 %find_lang %{name}
 
@@ -249,13 +249,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n python-%{name}
 %defattr(-,root,root,-)
-%{python_sitearch}/*
-%{python_sitelib}/*.py
-%{python_sitelib}/*.pyc
-%{python_sitelib}/*.pyo
+%{python_sitearch}/*.py
+%{python_sitearch}/*.pyc
+%{python_sitearch}/*.pyo
+%{python_sitearch}/*.so
 
 
 %changelog
+* Fri Jan 14 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-6
+- Fix multilib conflicts in *.pyc and *.pyo files.
+- Only install unversioned *.so file for Python bindings.
+
 * Wed Jan  5 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-4
 - Rebuild against OCaml 3.12.0.
 
