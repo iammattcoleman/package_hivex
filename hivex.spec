@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.2.4
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -256,6 +256,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Fri Jan 14 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-6
 - Fix multilib conflicts in *.pyc and *.pyo files.
 - Only install unversioned *.so file for Python bindings.
