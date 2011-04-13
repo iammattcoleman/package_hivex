@@ -6,8 +6,8 @@
 %endif
 
 Name:           hivex
-Version:        1.2.4
-Release:        7%{?dist}
+Version:        1.2.5
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -37,9 +37,6 @@ Conflicts:      libguestfs <= 1:1.0.84
 
 # Fix Perl directory install path.
 Patch0:         %{name}-1.2.3-dirs.patch
-
-# Fix segfault in OCaml binding of Hivex.value_value.
-Patch1:         hivex-1.2.4-fix-ocaml-value-value.patch
 
 
 %description
@@ -147,7 +144,6 @@ python-%{name} contains Python bindings for %{name}.
 %setup -q
 
 %patch0 -p1 -b .dirs
-%patch1 -p1
 
 
 %build
@@ -256,6 +252,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Apr 13 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.5-1
+- New upstream version 1.2.5.
+- This version fixes a number of important memory issues found by
+  valgrind and upgrading to this version is recommended for all users.
+- Remove patch now upstream.
+
 * Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.4-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
