@@ -1,0 +1,109 @@
+From 998387cf570a4569b9cdcb22f59aa7c979876fa6 Mon Sep 17 00:00:00 2001
+From: Hilko Bengen <bengen@hilluzination.de>
+Date: Thu, 12 May 2011 12:25:21 +0100
+Subject: [PATCH] ocaml: Use libtool to get correct library to build OCaml
+ tests.
+
+See this thread:
+https://www.redhat.com/archives/libguestfs/2011-May/thread.html#00015
+---
+ ocaml/Makefile.am |   37 +++++--------------------------------
+ 1 files changed, 5 insertions(+), 32 deletions(-)
+
+diff --git a/ocaml/Makefile.am b/ocaml/Makefile.am
+index fee3b88..e61b5db 100644
+--- a/ocaml/Makefile.am
++++ b/ocaml/Makefile.am
+@@ -63,38 +63,11 @@ TESTS = \
+ 	t/hivex_300_fold
+ noinst_DATA += $(TESTS)
+ 
+-t/hivex_005_load: t/hivex_005_load.cmo mlhivex.cma
+-	mkdir -p t
+-	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-t/hivex_010_open: t/hivex_010_open.cmo mlhivex.cma
+-	mkdir -p t
+-	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-t/hivex_020_root: t/hivex_020_root.cmo mlhivex.cma
+-	mkdir -p t
+-	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-t/hivex_100_errors: t/hivex_100_errors.cmo mlhivex.cma
+-	mkdir -p t
+-	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-t/hivex_110_gc_handle: t/hivex_110_gc_handle.cmo mlhivex.cma
+-	mkdir -p t
+-	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-t/hivex_200_write: t/hivex_200_write.cmo mlhivex.cma
+-	mkdir -p t
+-	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-t/hivex_300_fold: t/hivex_300_fold.cmo mlhivex.cma
+-	mkdir -p t
+-	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-# Need to rebuild the tests from source if the main library has
+-# changed at all, otherwise we get inconsistent assumptions.
+-t/%.cmx: t/%.ml mlhivex.cmxa
+-	$(OCAMLFIND) ocamlopt -package unix -linkpkg -c $< -o $@
++# https://www.redhat.com/archives/libguestfs/2011-May/thread.html#00015
++t/%: t/%.cmo mlhivex.cma
++	$(LIBTOOL) --mode=execute -dlopen $(top_builddir)/lib/libhivex.la \
++	  $(OCAMLFIND) ocamlc -dllpath $(abs_builddir) -package unix \
++	  -linkpkg mlhivex.cma $< -o $@
+ 
+ .mli.cmi:
+ 	$(OCAMLFIND) ocamlc -package unix -c $< -o $@
+-- 
+1.7.5
+
+--- hivex/ocaml/Makefile.in.orig	2011-05-12 12:26:46.451011976 +0100
++++ hivex/ocaml/Makefile.in	2011-05-12 12:26:56.623195014 +0100
+@@ -1188,38 +1188,11 @@
+ @HAVE_OCAML_TRUE@hivex_c.o: hivex_c.c
+ @HAVE_OCAML_TRUE@	$(CC) $(AM_CPPFLAGS) $(CFLAGS) -fPIC -Wall -c $<
+ 
+-@HAVE_OCAML_TRUE@t/hivex_005_load: t/hivex_005_load.cmo mlhivex.cma
+-@HAVE_OCAML_TRUE@	mkdir -p t
+-@HAVE_OCAML_TRUE@	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-@HAVE_OCAML_TRUE@t/hivex_010_open: t/hivex_010_open.cmo mlhivex.cma
+-@HAVE_OCAML_TRUE@	mkdir -p t
+-@HAVE_OCAML_TRUE@	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-@HAVE_OCAML_TRUE@t/hivex_020_root: t/hivex_020_root.cmo mlhivex.cma
+-@HAVE_OCAML_TRUE@	mkdir -p t
+-@HAVE_OCAML_TRUE@	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-@HAVE_OCAML_TRUE@t/hivex_100_errors: t/hivex_100_errors.cmo mlhivex.cma
+-@HAVE_OCAML_TRUE@	mkdir -p t
+-@HAVE_OCAML_TRUE@	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-@HAVE_OCAML_TRUE@t/hivex_110_gc_handle: t/hivex_110_gc_handle.cmo mlhivex.cma
+-@HAVE_OCAML_TRUE@	mkdir -p t
+-@HAVE_OCAML_TRUE@	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-@HAVE_OCAML_TRUE@t/hivex_200_write: t/hivex_200_write.cmo mlhivex.cma
+-@HAVE_OCAML_TRUE@	mkdir -p t
+-@HAVE_OCAML_TRUE@	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-@HAVE_OCAML_TRUE@t/hivex_300_fold: t/hivex_300_fold.cmo mlhivex.cma
+-@HAVE_OCAML_TRUE@	mkdir -p t
+-@HAVE_OCAML_TRUE@	$(OCAMLFIND) ocamlc -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlhivex.cma $< -o $@
+-
+-# Need to rebuild the tests from source if the main library has
+-# changed at all, otherwise we get inconsistent assumptions.
+-@HAVE_OCAML_TRUE@t/%.cmx: t/%.ml mlhivex.cmxa
+-@HAVE_OCAML_TRUE@	$(OCAMLFIND) ocamlopt -package unix -linkpkg -c $< -o $@
++# https://www.redhat.com/archives/libguestfs/2011-May/thread.html#00015
++@HAVE_OCAML_TRUE@t/%: t/%.cmo mlhivex.cma
++@HAVE_OCAML_TRUE@	$(LIBTOOL) --mode=execute -dlopen $(top_builddir)/lib/libhivex.la \
++@HAVE_OCAML_TRUE@	  $(OCAMLFIND) ocamlc -dllpath $(abs_builddir) -package unix \
++@HAVE_OCAML_TRUE@	  -linkpkg mlhivex.cma $< -o $@
+ 
+ @HAVE_OCAML_TRUE@.mli.cmi:
+ @HAVE_OCAML_TRUE@	$(OCAMLFIND) ocamlc -package unix -c $< -o $@
