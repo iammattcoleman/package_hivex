@@ -1,7 +1,7 @@
 From f408b757b1d75429fae5fa7630a4fc5451844de7 Mon Sep 17 00:00:00 2001
 From: Richard W.M. Jones <rjones@redhat.com>
 Date: Tue, 17 May 2011 17:19:27 +0100
-Subject: [PATCH] ocaml: Set package name when installing native bindings.
+Subject: [PATCH 1/2] ocaml: Set package name when installing native bindings.
 
 This fixes commit b8ad15031cacf910634b4f4f4632232949c4acd2.
 ---
