@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.2.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -37,6 +37,9 @@ Conflicts:      libguestfs <= 1:1.0.84
 
 # Fix Perl directory install path.
 Patch0:         %{name}-1.2.3-dirs.patch
+
+# Add upstream patch to fix ocaml install rule.
+Patch1:         0001-ocaml-Set-package-name-when-installing-native-bindin.patch
 
 
 %description
@@ -144,6 +147,7 @@ python-%{name} contains Python bindings for %{name}.
 %setup -q
 
 %patch0 -p1 -b .dirs
+%patch1 -p1
 
 
 %build
@@ -252,9 +256,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue May 17 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.7-1
+* Tue May 17 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.7-2
 - New upstream version 1.2.7.
 - Removed patch which is now upstream.
+- Add upstream patch to fix ocaml install rule.
 
 * Thu May 12 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.6-2
 - New upstream version 1.2.6.
