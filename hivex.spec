@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.2.7
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -260,6 +260,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jul 21 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.7-6
+- i686 package is broken, experimentally rebuild it.
+
 * Fri Jun 17 2011 Marcela Mašláňová <mmaslano@redhat.com> - 1.2.7-5
 - Perl mass rebuild
 
