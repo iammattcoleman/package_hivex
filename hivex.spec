@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.2.7
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -268,7 +268,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Jul 21 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.7-8
+* Fri Jul 22 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.7-9
 - Add upstream patch to fix Perl CCFLAGS for Perl 5.14 on i686.
 - Enable 'make check'.
 
