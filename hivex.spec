@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.2.7
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -163,6 +163,10 @@ python-%{name} contains Python bindings for %{name}.
 make %{?_smp_mflags}
 
 
+%check
+make check
+
+
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
@@ -264,8 +268,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Jul 21 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.7-7
+* Thu Jul 21 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.7-8
 - Add upstream patch to fix Perl CCFLAGS for Perl 5.14 on i686.
+- Enable 'make check'.
 
 * Thu Jul 21 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.7-6
 - i686 package is broken, experimentally rebuild it.
