@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.2.7
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -42,6 +42,9 @@ Patch0:         %{name}-1.2.3-dirs.patch
 Patch1:         0001-ocaml-Set-package-name-when-installing-native-bindin.patch
 Patch2:         0002-ocaml-Really-fix-make-install-rule.patch
 Patch3:         ocaml-Fix-autotools.patch
+
+# Upstream patch to fix Perl CCFLAGS for Perl 5.14 on i686.
+Patch4:         0001-perl-Fix-CCFLAGS-on-Perl-5.14.patch
 
 
 %description
@@ -152,6 +155,7 @@ python-%{name} contains Python bindings for %{name}.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 
 %build
@@ -260,6 +264,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jul 21 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.7-7
+- Add upstream patch to fix Perl CCFLAGS for Perl 5.14 on i686.
+
 * Thu Jul 21 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.7-6
 - i686 package is broken, experimentally rebuild it.
 
