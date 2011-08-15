@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -150,7 +150,7 @@ python-%{name} contains Python bindings for %{name}.
 %package -n ruby-%{name}
 Summary:       Ruby bindings for %{name}
 Group:         Development/Libraries
-Requires:      %{name} = %{epoch}:%{version}-%{release}
+Requires:      %{name} = %{version}-%{release}
 Requires:      ruby(abi) = 1.8
 Requires:      ruby
 Provides:      ruby(hivex) = %{version}
@@ -286,10 +286,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Aug 15 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.0-2
+* Mon Aug 15 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.0-3
 - New upstream version 1.3.0.
 - This version adds Ruby bindings, so there is a new subpackage 'ruby-hivex'.
 - Add upstream patch to fix Ruby tests.
+- Remove epoch macro in ruby-hivex dependency.
 
 * Fri Aug 12 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.8-1
 - New upstream version 1.2.8.
