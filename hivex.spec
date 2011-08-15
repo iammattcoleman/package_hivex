@@ -6,7 +6,7 @@
 %endif
 
 Name:           hivex
-Version:        1.2.8
+Version:        1.3.0
 Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
@@ -28,6 +28,8 @@ BuildRequires:  ocaml
 BuildRequires:  ocaml-findlib-devel
 %endif
 BuildRequires:  python-devel
+BuildRequires:  ruby-devel
+BuildRequires:  rubygem-rake
 BuildRequires:  readline-devel
 BuildRequires:  libxml2-devel
 
@@ -66,6 +68,8 @@ For OCaml bindings, see 'ocaml-hivex-devel'.
 For Perl bindings, see 'perl-hivex'.
 
 For Python bindings, see 'python-hivex'.
+
+For Ruby bindings, see 'ruby-hivex'.
 
 
 %package devel
@@ -138,6 +142,21 @@ Requires:      %{name} = %{version}-%{release}
 
 %description -n python-%{name}
 python-%{name} contains Python bindings for %{name}.
+
+
+%package -n ruby-%{name}
+Summary:       Ruby bindings for %{name}
+Group:         Development/Libraries
+Requires:      %{name} = %{epoch}:%{version}-%{release}
+Requires:      ruby(abi) = 1.8
+Requires:      ruby
+Provides:      ruby(hivex) = %{version}
+
+%{!?ruby_sitelib: %global ruby_sitelib %(ruby -rrbconfig -e "puts Config::CONFIG['sitelibdir']")}
+%{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e "puts Config::CONFIG['sitearchdir']")}
+
+%description -n ruby-%{name}
+ruby-%{name} contains Ruby bindings for %{name}.
 
 
 %prep
@@ -255,7 +274,18 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/*.so
 
 
+%files -n ruby-%{name}
+%defattr(-,root,root,-)
+%doc ruby/doc/site/*
+%{ruby_sitelib}/hivex.rb
+%{ruby_sitearch}/_hivex.so
+
+
 %changelog
+* Mon Aug 15 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.0-1
+- New upstream version 1.3.0.
+- This version adds Ruby bindings, so there is a new subpackage 'ruby-hivex'.
+
 * Fri Aug 12 2011 Richard W.M. Jones <rjones@redhat.com> - 1.2.8-1
 - New upstream version 1.2.8.
 - Remove 4 upstream patches.
