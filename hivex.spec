@@ -6,8 +6,8 @@
 %endif
 
 Name:           hivex
-Version:        1.3.0
-Release:        3%{?dist}
+Version:        1.3.1
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -39,9 +39,6 @@ Conflicts:      libguestfs <= 1:1.0.84
 
 # Fix Perl directory install path.
 Patch0:         %{name}-1.2.3-dirs.patch
-
-# Upstream patch: ruby: Test against locally built library.
-Patch1:         0001-ruby-Test-against-locally-built-library.patch
 
 
 %description
@@ -166,7 +163,6 @@ ruby-%{name} contains Ruby bindings for %{name}.
 %setup -q
 
 %patch0 -p1 -b .dirs
-%patch1 -p1
 
 
 %build
@@ -286,6 +282,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Aug 26 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-1
+- New upstream version 1.3.1.
+- Remove patch, now upstream.
+
 * Mon Aug 15 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.0-3
 - New upstream version 1.3.0.
 - This version adds Ruby bindings, so there is a new subpackage 'ruby-hivex'.
