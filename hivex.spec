@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -187,14 +187,7 @@ find $RPM_BUILD_ROOT -name .packlist -delete
 find $RPM_BUILD_ROOT -name '*.bs' -delete
 
 # Remove unwanted Python files:
-rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.a
 rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
-
-# Only install unversioned *.so file for Python bindings.
-rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.so
-mv $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.so.0.0.0 \
-   $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.so
-rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.so.0*
 
 %find_lang %{name}
 
@@ -282,9 +275,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Aug 26 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-1
+* Fri Aug 26 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-2
 - New upstream version 1.3.1.
 - Remove patch, now upstream.
+- Don't need hack for making an unversioned Python module.
 
 * Mon Aug 15 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.0-3
 - New upstream version 1.3.0.
