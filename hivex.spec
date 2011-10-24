@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -39,6 +39,9 @@ Conflicts:      libguestfs <= 1:1.0.84
 
 # Fix Perl directory install path.
 Patch0:         %{name}-1.2.3-dirs.patch
+
+# Upstream patch to fix building hivexsh, hivexget commands.
+Patch1:         0001-Fix-conditional-test-for-HAVE_HIVEXSH.patch
 
 
 %description
@@ -163,6 +166,7 @@ ruby-%{name} contains Ruby bindings for %{name}.
 %setup -q
 
 %patch0 -p1 -b .dirs
+%patch1 -p1
 
 
 %build
@@ -275,8 +279,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Oct 24 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.2-1
+* Mon Oct 24 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.2-2
 - New upstream version 1.3.2.
+- Add upstream patch to fix building of hivexsh, hivexget.
 
 * Fri Aug 26 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-2
 - New upstream version 1.3.1.
