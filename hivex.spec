@@ -6,8 +6,8 @@
 %endif
 
 Name:           hivex
-Version:        1.3.1
-Release:        2%{?dist}
+Version:        1.3.2
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -275,6 +275,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Oct 24 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.2-1
+- New upstream version 1.3.2.
+
 * Fri Aug 26 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-2
 - New upstream version 1.3.1.
 - Remove patch, now upstream.
