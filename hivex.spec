@@ -1,5 +1,5 @@
 # conditionalize Ocaml support
-%ifarch sparc64 s390 s390x
+%ifarch ppc64 sparc64 s390 s390x
 %bcond_with ocaml
 %else
 %bcond_without ocaml
@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -173,6 +173,14 @@ make %{?_smp_mflags}
 %check
 make check
 
+%if !%{with ocaml}
+# Delete OCaml files, in case the user had OCaml installed and it was
+# picked up by the configure script.
+# XXX Add ./configure --disable-ocaml upstream.
+rm -rf $RPM_BUILD_ROOT%{_libdir}/ocaml/hivex
+rm -f  $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs/*hivex*
+%endif
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -275,6 +283,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Dec  8 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-2
+- Disable OCaml on ppc64.
+- Ensure OCaml files are deleted when not packaged.
+
 * Tue Nov 29 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-1
 - New upstream version 1.3.3.
 - Rebased gnulib to work around RHBZ#756981.
