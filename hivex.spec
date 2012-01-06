@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -283,6 +283,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 06 2012 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-3
+- Rebuild for OCaml 3.12.1.
+
 * Thu Dec  8 2011 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-2
 - Disable OCaml on ppc64.
 - Ensure OCaml files are deleted when not packaged.
