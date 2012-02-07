@@ -1,0 +1,124 @@
+From 584fc6fc9857cf493120aebe514f73f3a143234b Mon Sep 17 00:00:00 2001
+From: Hilko Bengen <bengen@hilluzination.de>
+Date: Wed, 7 Dec 2011 21:41:29 +0100
+Subject: [PATCH] hivex: Fix Ruby bindings for 1.9; let the user explicitly
+ choose ruby, rake
+
+---
+ configure.ac           |   15 +++++++++++++--
+ generator/generator.ml |   12 ++++++++++--
+ ruby/Makefile.am       |   11 ++++++-----
+ ruby/Rakefile.in       |    2 +-
+ ruby/run-ruby-tests    |    4 ++--
+ 5 files changed, 32 insertions(+), 12 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 8651c7b..33c09db 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -312,8 +312,19 @@ AM_CONDITIONAL([HAVE_PYTHON],
+     [test "x$PYTHON" != "xno" && test "x$PYTHON_INCLUDEDIR" != "x" && test "x$PYTHON_INSTALLDIR" != "x"])
+ 
+ dnl Check for Ruby and rake (optional, for Ruby bindings).
+-AC_CHECK_LIB([ruby],[ruby_init],[HAVE_LIBRUBY=1],[HAVE_LIBRUBY=0])
+-AC_CHECK_PROG([RAKE],[rake],[rake],[no])
++AC_ARG_ENABLE([ruby],
++        AS_HELP_STRING([--disable-ruby], [Disable Ruby language bindings]),
++        [],
++        [enable_ruby=yes])
++AS_IF([test "x$enable_ruby" != "xno"],
++        [
++        AC_CHECK_PROG([RUBY],[ruby],[ruby],[no])
++        AC_CHECK_PROG([RAKE],[rake],[rake],[no])
++        AC_CHECK_LIB([ruby],[ruby_init],[HAVE_LIBRUBY=1],[HAVE_LIBRUBY=0])
++        AC_SUBST(RAKE)
++        ])
++AM_CONDITIONAL([HAVE_RUBY],
++    [test "x$RAKE" != "xno" && test -n "$HAVE_LIBRUBY"])
+ 
+ AM_CONDITIONAL([HAVE_RUBY],
+     [test "x$RAKE" != "xno" && test -n "$HAVE_LIBRUBY"])
+diff --git a/generator/generator.ml b/generator/generator.ml
+index 065c25d..dd13d6a 100755
+--- a/generator/generator.ml
++++ b/generator/generator.ml
+@@ -3265,6 +3265,14 @@ and generate_ruby_c () =
+ #define RARRAY_LEN(r) (RARRAY((r))->len)
+ #endif
+ 
++#ifndef RSTRING_LEN
++#define RSTRING_LEN(r) (RSTRING((r))->len)
++#endif
++
++#ifndef RSTRING_PTR
++#define RSTRING_PTR(r) (RSTRING((r))->ptr)
++#endif
++
+ static VALUE m_hivex;			/* hivex module */
+ static VALUE c_hivex;			/* hive_h handle */
+ static VALUE e_Error;			/* used for all errors */
+@@ -3287,8 +3295,8 @@ get_value (VALUE valv, hive_set_value *val)
+ 
+   val->key = StringValueCStr (key);
+   val->t = NUM2ULL (type);
+-  val->len = RSTRING (value)->len;
+-  val->value = RSTRING (value)->ptr;
++  val->len = RSTRING_LEN (value);
++  val->value = RSTRING_PTR (value);
+ }
+ 
+ static hive_set_value *
+diff --git a/ruby/Makefile.am b/ruby/Makefile.am
+index b323d7e..efc2211 100644
+--- a/ruby/Makefile.am
++++ b/ruby/Makefile.am
+@@ -40,14 +40,15 @@ if HAVE_RUBY
+ TESTS = run-ruby-tests
+ 
+ TESTS_ENVIRONMENT = \
+-	LD_LIBRARY_PATH=$(top_builddir)/src/.libs
++	LD_LIBRARY_PATH=$(top_builddir)/src/.libs \
++	RUBY=$(RUBY) RAKE=$(RAKE)
+ 
+ all:
+-	rake build
+-	rake rdoc
++	$(RAKE) build
++	$(RAKE) rdoc
+ 
+-RUBY_SITELIB := $(shell ruby -rrbconfig -e "puts Config::CONFIG['sitelibdir']")
+-RUBY_SITEARCH := $(shell ruby -rrbconfig -e "puts Config::CONFIG['sitearchdir']")
++RUBY_SITELIB := $(shell $(RUBY) -rrbconfig -e "puts Config::CONFIG['sitelibdir']")
++RUBY_SITEARCH := $(shell $(RUBY) -rrbconfig -e "puts Config::CONFIG['sitearchdir']")
+ 
+ install:
+ 	$(MKDIR_P) $(DESTDIR)$(RUBY_SITELIB)
+diff --git a/ruby/Rakefile.in b/ruby/Rakefile.in
+index 2587476..4cb2d67 100644
+--- a/ruby/Rakefile.in
++++ b/ruby/Rakefile.in
+@@ -38,7 +38,7 @@ CLOBBER.include [ "@builddir@/config.save", "@builddir@/ext/**/mkmf.log",
+ # Build locally
+ 
+ file MAKEFILE => EXT_CONF do |t|
+-     unless sh "top_srcdir=$(pwd)/@top_srcdir@; top_builddir=$(pwd)/@top_builddir@; export ARCHFLAGS=\"-arch $(uname -m)\"; mkdir -p @builddir@/ext/hivex; cd @builddir@/ext/hivex; ruby #{EXT_CONF} --with-_hivex-include=$top_srcdir/lib --with-_hivex-lib=$top_builddir/lib/.libs"
++     unless sh "top_srcdir=$(pwd)/@top_srcdir@; top_builddir=$(pwd)/@top_builddir@; export ARCHFLAGS=\"-arch $(uname -m)\"; mkdir -p @builddir@/ext/hivex; cd @builddir@/ext/hivex; @RUBY@ #{EXT_CONF} --with-_hivex-include=$top_srcdir/lib --with-_hivex-lib=$top_builddir/lib/.libs"
+          $stderr.puts "Failed to run extconf"
+          break
+      end
+diff --git a/ruby/run-ruby-tests b/ruby/run-ruby-tests
+index 1596c87..74afb9f 100755
+--- a/ruby/run-ruby-tests
++++ b/ruby/run-ruby-tests
+@@ -24,6 +24,6 @@ export LD_LIBRARY_PATH=../lib/.libs
+ # is bound to fail because they all use a single test image file).
+ 
+ for f in tests/tc_*.rb; do
+-    echo rake test "$@" TEST="$f"
+-    rake test "$@" TEST="$f"
++    echo $RAKE test "$@" TEST="$f"
++    $RAKE test "$@" TEST="$f"
+ done
+-- 
+1.7.6
+
