@@ -1,22 +1,7 @@
-From 584fc6fc9857cf493120aebe514f73f3a143234b Mon Sep 17 00:00:00 2001
-From: Hilko Bengen <bengen@hilluzination.de>
-Date: Wed, 7 Dec 2011 21:41:29 +0100
-Subject: [PATCH] hivex: Fix Ruby bindings for 1.9; let the user explicitly
- choose ruby, rake
-
----
- configure.ac           |   15 +++++++++++++--
- generator/generator.ml |   12 ++++++++++--
- ruby/Makefile.am       |   11 ++++++-----
- ruby/Rakefile.in       |    2 +-
- ruby/run-ruby-tests    |    4 ++--
- 5 files changed, 32 insertions(+), 12 deletions(-)
-
-diff --git a/configure.ac b/configure.ac
-index 8651c7b..33c09db 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -312,8 +312,19 @@ AM_CONDITIONAL([HAVE_PYTHON],
+diff -ur hivex-1.3.3.old/configure.ac hivex-1.3.3/configure.ac
+--- hivex-1.3.3.old/configure.ac	2011-11-29 11:05:56.000000000 +0000
++++ hivex-1.3.3/configure.ac	2012-02-07 13:48:53.513912218 +0000
+@@ -312,8 +312,19 @@
      [test "x$PYTHON" != "xno" && test "x$PYTHON_INCLUDEDIR" != "x" && test "x$PYTHON_INSTALLDIR" != "x"])
  
  dnl Check for Ruby and rake (optional, for Ruby bindings).
@@ -38,11 +23,10 @@ index 8651c7b..33c09db 100644
  
  AM_CONDITIONAL([HAVE_RUBY],
      [test "x$RAKE" != "xno" && test -n "$HAVE_LIBRUBY"])
-diff --git a/generator/generator.ml b/generator/generator.ml
-index 065c25d..dd13d6a 100755
---- a/generator/generator.ml
-+++ b/generator/generator.ml
-@@ -3265,6 +3265,14 @@ and generate_ruby_c () =
+diff -ur hivex-1.3.3.old/generator/generator.ml hivex-1.3.3/generator/generator.ml
+--- hivex-1.3.3.old/generator/generator.ml	2011-11-19 16:44:04.000000000 +0000
++++ hivex-1.3.3/generator/generator.ml	2012-02-07 13:48:53.518912298 +0000
+@@ -3265,6 +3265,14 @@
  #define RARRAY_LEN(r) (RARRAY((r))->len)
  #endif
  
@@ -57,7 +41,7 @@ index 065c25d..dd13d6a 100755
  static VALUE m_hivex;			/* hivex module */
  static VALUE c_hivex;			/* hive_h handle */
  static VALUE e_Error;			/* used for all errors */
-@@ -3287,8 +3295,8 @@ get_value (VALUE valv, hive_set_value *val)
+@@ -3287,8 +3295,8 @@
  
    val->key = StringValueCStr (key);
    val->t = NUM2ULL (type);
@@ -68,11 +52,10 @@ index 065c25d..dd13d6a 100755
  }
  
  static hive_set_value *
-diff --git a/ruby/Makefile.am b/ruby/Makefile.am
-index b323d7e..efc2211 100644
---- a/ruby/Makefile.am
-+++ b/ruby/Makefile.am
-@@ -40,14 +40,15 @@ if HAVE_RUBY
+diff -ur hivex-1.3.3.old/ruby/Makefile.am hivex-1.3.3/ruby/Makefile.am
+--- hivex-1.3.3.old/ruby/Makefile.am	2011-08-15 10:34:07.000000000 +0100
++++ hivex-1.3.3/ruby/Makefile.am	2012-02-07 13:48:53.529912474 +0000
+@@ -40,14 +40,15 @@
  TESTS = run-ruby-tests
  
  TESTS_ENVIRONMENT = \
@@ -93,24 +76,22 @@ index b323d7e..efc2211 100644
  
  install:
  	$(MKDIR_P) $(DESTDIR)$(RUBY_SITELIB)
-diff --git a/ruby/Rakefile.in b/ruby/Rakefile.in
-index 2587476..4cb2d67 100644
---- a/ruby/Rakefile.in
-+++ b/ruby/Rakefile.in
-@@ -38,7 +38,7 @@ CLOBBER.include [ "@builddir@/config.save", "@builddir@/ext/**/mkmf.log",
+diff -ur hivex-1.3.3.old/ruby/Rakefile.in hivex-1.3.3/ruby/Rakefile.in
+--- hivex-1.3.3.old/ruby/Rakefile.in	2011-11-29 10:56:28.000000000 +0000
++++ hivex-1.3.3/ruby/Rakefile.in	2012-02-07 13:49:40.887674923 +0000
+@@ -38,7 +38,7 @@
  # Build locally
  
  file MAKEFILE => EXT_CONF do |t|
--     unless sh "top_srcdir=$(pwd)/@top_srcdir@; top_builddir=$(pwd)/@top_builddir@; export ARCHFLAGS=\"-arch $(uname -m)\"; mkdir -p @builddir@/ext/hivex; cd @builddir@/ext/hivex; ruby #{EXT_CONF} --with-_hivex-include=$top_srcdir/lib --with-_hivex-lib=$top_builddir/lib/.libs"
-+     unless sh "top_srcdir=$(pwd)/@top_srcdir@; top_builddir=$(pwd)/@top_builddir@; export ARCHFLAGS=\"-arch $(uname -m)\"; mkdir -p @builddir@/ext/hivex; cd @builddir@/ext/hivex; @RUBY@ #{EXT_CONF} --with-_hivex-include=$top_srcdir/lib --with-_hivex-lib=$top_builddir/lib/.libs"
+-     unless sh "top_srcdir=$(pwd)/@top_srcdir@; top_builddir=$(pwd)/@top_builddir@; export ARCHFLAGS=\"-arch $(uname -m)\"; cd #{File::dirname(EXT_CONF)}; ruby #{File::basename(EXT_CONF)} --with-_hivex-include=$top_srcdir/lib --with-_hivex-lib=$top_builddir/lib/.libs"
++     unless sh "top_srcdir=$(pwd)/@top_srcdir@; top_builddir=$(pwd)/@top_builddir@; export ARCHFLAGS=\"-arch $(uname -m)\"; cd #{File::dirname(EXT_CONF)}; @RUBY@ #{File::basename(EXT_CONF)} --with-_hivex-include=$top_srcdir/lib --with-_hivex-lib=$top_builddir/lib/.libs"
           $stderr.puts "Failed to run extconf"
           break
       end
-diff --git a/ruby/run-ruby-tests b/ruby/run-ruby-tests
-index 1596c87..74afb9f 100755
---- a/ruby/run-ruby-tests
-+++ b/ruby/run-ruby-tests
-@@ -24,6 +24,6 @@ export LD_LIBRARY_PATH=../lib/.libs
+diff -ur hivex-1.3.3.old/ruby/run-ruby-tests hivex-1.3.3/ruby/run-ruby-tests
+--- hivex-1.3.3.old/ruby/run-ruby-tests	2011-08-15 11:07:46.000000000 +0100
++++ hivex-1.3.3/ruby/run-ruby-tests	2012-02-07 13:48:53.532912524 +0000
+@@ -24,6 +24,6 @@
  # is bound to fail because they all use a single test image file).
  
  for f in tests/tc_*.rb; do
@@ -119,6 +100,3 @@ index 1596c87..74afb9f 100755
 +    echo $RAKE test "$@" TEST="$f"
 +    $RAKE test "$@" TEST="$f"
  done
--- 
-1.7.6
-

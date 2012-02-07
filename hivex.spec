@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -42,6 +42,7 @@ Patch0:         %{name}-1.2.3-dirs.patch
 
 # Fix bindings for Ruby 1.9 (upstream).
 Patch1:         0001-hivex-Fix-Ruby-bindings-for-1.9-let-the-user-explici.patch
+BuildRequires:  autoconf, automake, libtool, gettext-devel, ocaml
 
 
 %description
@@ -167,6 +168,8 @@ ruby-%{name} contains Ruby bindings for %{name}.
 
 %patch0 -p1 -b .dirs
 %patch1 -p1 -b .ruby19
+autoreconf ||:
+./generator/generator.ml
 
 
 %build
@@ -287,7 +290,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Feb 07 2012 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-5
+* Tue Feb 07 2012 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-6
 - Bump and rebuild for Ruby update.
 - Add upstream patch to fix bindings for Ruby 1.9.
 
