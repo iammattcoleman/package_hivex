@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -283,6 +283,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 07 2012 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-4
+- Bump and rebuild for Ruby update.
+
 * Fri Jan 06 2012 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-3
 - Rebuild for OCaml 3.12.1.
 
