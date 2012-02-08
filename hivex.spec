@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -30,6 +30,7 @@ BuildRequires:  ocaml-findlib-devel
 BuildRequires:  python-devel
 BuildRequires:  ruby-devel
 BuildRequires:  rubygem-rake
+BuildRequires:  rubygem(minitest)
 BuildRequires:  readline-devel
 BuildRequires:  libxml2-devel
 
@@ -43,6 +44,9 @@ Patch0:         %{name}-1.2.3-dirs.patch
 # Fix bindings for Ruby 1.9 (upstream).
 Patch1:         0001-hivex-Fix-Ruby-bindings-for-1.9-let-the-user-explici.patch
 BuildRequires:  autoconf, automake, libtool, gettext-devel, ocaml
+
+# Use VENDOR*DIR instead of SITE*DIR (not yet upstream).
+Patch2:         ruby-1.9-vendor-not-site.patch
 
 
 %description
@@ -156,9 +160,6 @@ Requires:      ruby(abi) = 1.8
 Requires:      ruby
 Provides:      ruby(hivex) = %{version}
 
-%{!?ruby_sitelib: %global ruby_sitelib %(ruby -rrbconfig -e "puts Config::CONFIG['sitelibdir']")}
-%{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e "puts Config::CONFIG['sitearchdir']")}
-
 %description -n ruby-%{name}
 ruby-%{name} contains Ruby bindings for %{name}.
 
@@ -168,6 +169,7 @@ ruby-%{name} contains Ruby bindings for %{name}.
 
 %patch0 -p1 -b .dirs
 %patch1 -p1 -b .ruby19
+%patch2 -p1 -b .rubyvendor
 autoreconf ||:
 ./generator/generator.ml
 
@@ -285,14 +287,15 @@ rm -rf $RPM_BUILD_ROOT
 %files -n ruby-%{name}
 %defattr(-,root,root,-)
 %doc ruby/doc/site/*
-%{ruby_sitelib}/hivex.rb
-%{ruby_sitearch}/_hivex.so
+%{ruby_vendorlibdir}/hivex.rb
+%{ruby_vendorarchdir}/_hivex.so
 
 
 %changelog
-* Tue Feb 07 2012 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-6
+* Wed Feb  8 2012 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-7
 - Bump and rebuild for Ruby update.
 - Add upstream patch to fix bindings for Ruby 1.9.
+- Add non-upstream patch to pass --vendor flag to extconf.rb
 
 * Fri Jan 06 2012 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-3
 - Rebuild for OCaml 3.12.1.
