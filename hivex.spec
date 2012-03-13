@@ -6,8 +6,8 @@
 %endif
 
 Name:           hivex
-Version:       1.3.5
-Release:       1%{?dist}
+Version:        1.3.5
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -40,10 +40,6 @@ Conflicts:      libguestfs <= 1:1.0.84
 
 # Fix Perl directory install path.
 Patch0:         %{name}-1.2.3-dirs.patch
-
-# Fix bindings for Ruby 1.9 (upstream).
-Patch1:         0001-hivex-Fix-Ruby-bindings-for-1.9-let-the-user-explici.patch
-BuildRequires:  autoconf, automake, libtool, gettext-devel, ocaml
 
 # Use VENDOR*DIR instead of SITE*DIR (not yet upstream).
 Patch2:         ruby-1.9-vendor-not-site.patch
@@ -168,7 +164,6 @@ ruby-%{name} contains Ruby bindings for %{name}.
 %setup -q
 
 %patch0 -p1 -b .dirs
-%patch1 -p1 -b .ruby19
 %patch2 -p1 -b .rubyvendor
 autoreconf ||:
 ./generator/generator.ml
@@ -292,8 +287,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Mar 13 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.5-1
+* Tue Mar 13 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.5-2
 - New upstream version 1.3.5.
+- Remove upstream patch.
 
 * Thu Feb  9 2012 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-8
 - ruby(abi) 1.9.1.
