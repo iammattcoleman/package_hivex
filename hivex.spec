@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -43,7 +43,7 @@ Patch0:         %{name}-1.2.3-dirs.patch
 
 # Use VENDOR*DIR instead of SITE*DIR (not yet upstream).
 Patch2:         ruby-1.9-vendor-not-site.patch
-BuildRequires:  /usr/bin/autoreconf
+BuildRequires:  autoconf, automake, libtool
 
 
 %description
@@ -288,10 +288,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Mar 13 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.5-3
+* Tue Mar 13 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.5-4
 - New upstream version 1.3.5.
 - Remove upstream patch.
-- Depend on autoreconf for the patch.
+- Depend on automake etc. for the patch.
 
 * Thu Feb  9 2012 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-8
 - ruby(abi) 1.9.1.
