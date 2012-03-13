@@ -6,8 +6,8 @@
 %endif
 
 Name:           hivex
-Version:        1.3.3
-Release:        8%{?dist}
+Version:       1.3.5
+Release:       1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -292,6 +292,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Mar 13 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.5-1
+- New upstream version 1.3.5.
+
 * Thu Feb  9 2012 Richard W.M. Jones <rjones@redhat.com> - 1.3.3-8
 - ruby(abi) 1.9.1.
 
