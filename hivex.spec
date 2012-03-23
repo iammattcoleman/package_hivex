@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.5
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -167,7 +167,6 @@ ruby-%{name} contains Ruby bindings for %{name}.
 %patch0 -p1 -b .dirs
 %patch2 -p1 -b .rubyvendor
 autoreconf ||:
-./generator/generator.ml
 
 
 %build
@@ -288,6 +287,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Mar 23 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.5-5
+- Don't need to rerun the generator (thanks Dan Horák).
+
 * Tue Mar 13 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.5-4
 - New upstream version 1.3.5.
 - Remove upstream patch.
