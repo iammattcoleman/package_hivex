@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.5
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -44,6 +44,9 @@ Patch0:         %{name}-1.2.3-dirs.patch
 # Use VENDOR*DIR instead of SITE*DIR (not yet upstream).
 Patch2:         ruby-1.9-vendor-not-site.patch
 BuildRequires:  autoconf, automake, libtool
+
+# https://fedoraproject.org/wiki/Packaging:No_Bundled_Libraries#Packages_granted_exceptions
+Provides:      bundled(gnulib)
 
 
 %description
@@ -287,6 +290,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue May 15 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.5-6
+- Bundled gnulib (RHBZ#821763).
+
 * Fri Mar 23 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.5-5
 - Don't need to rerun the generator (thanks Dan Horák).
 
