@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.5
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -50,7 +50,7 @@ Provides:      bundled(gnulib)
 
 
 %description
-Hive files are the undocumented binary blobs that Windows uses to
+Hive files are the undocumented binary files that Windows uses to
 store the Windows Registry on disk.  Hivex is a library that can read
 and write to these files.
 
@@ -290,6 +290,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri May 18 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.5-7
+- "blobs" -> "files" in the description.
+
 * Tue May 15 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.5-6
 - Bundled gnulib (RHBZ#821763).
 
