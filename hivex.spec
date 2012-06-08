@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.5
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -290,6 +290,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jun 08 2012 Petr Pisar <ppisar@redhat.com> - 1.3.5-8
+- Perl 5.16 rebuild
+
 * Fri May 18 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.5-7
 - "blobs" -> "files" in the description.
 
