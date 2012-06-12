@@ -1,13 +1,13 @@
 # conditionalize Ocaml support
-%ifarch ppc64 sparc64 s390 s390x
+%ifarch sparc64 s390 s390x
 %bcond_with ocaml
 %else
 %bcond_without ocaml
 %endif
 
 Name:           hivex
-Version:        1.3.5
-Release:        9%{?dist}
+Version:        1.3.6
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -290,6 +290,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jun 12 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.6-1
+- New upstream version 1.3.6.
+- Enable Ocaml bindings on ppc64.
+
 * Sat Jun 09 2012 Richard W.M. Jones <rjones@redhat.com> - 1.3.5-9
 - Rebuild for OCaml 4.00.0.
 
