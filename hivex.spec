@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -290,6 +290,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jun 27 2012 Petr Pisar <ppisar@redhat.com> - 1.3.6-2
+- Perl 5.16 rebuild
+
 * Tue Jun 12 2012 Richard W.M. Jones <rjones@redhat.com> - 1:1.3.6-1
 - New upstream version 1.3.6.
 - Enable Ocaml bindings on ppc64.
