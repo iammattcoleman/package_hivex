@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.7
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -43,7 +43,7 @@ Patch0:         %{name}-1.2.3-dirs.patch
 
 # Use VENDOR*DIR instead of SITE*DIR (not yet upstream).
 Patch2:         ruby-1.9-vendor-not-site.patch
-BuildRequires:  autoconf, automake, libtool
+BuildRequires:  autoconf, automake, libtool, gettext-devel
 
 # Fix for newest Ruby (upstream since 2013-02-15).
 Patch3:         0001-ruby-Use-updated-rake-package-names-but-allow-fallba.patch
@@ -294,7 +294,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Feb 15 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.7-5
+* Fri Feb 15 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.7-6
 - Fix for latest Ruby in Rawhide.  Fixes build failure identified
   by mass rebuild yesterday.
 - Don't ignore error from running autoreconf.
