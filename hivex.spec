@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.7
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -44,6 +44,9 @@ Patch0:         %{name}-1.2.3-dirs.patch
 # Use VENDOR*DIR instead of SITE*DIR (not yet upstream).
 Patch2:         ruby-1.9-vendor-not-site.patch
 BuildRequires:  autoconf, automake, libtool
+
+# Fix for newest Ruby (upstream since 2013-02-15).
+Patch3:         0001-ruby-Use-updated-rake-package-names-but-allow-fallba.patch
 
 # https://fedoraproject.org/wiki/Packaging:No_Bundled_Libraries#Packages_granted_exceptions
 Provides:      bundled(gnulib)
@@ -169,6 +172,7 @@ ruby-%{name} contains Ruby bindings for %{name}.
 
 %patch0 -p1 -b .dirs
 %patch2 -p1 -b .rubyvendor
+%patch3 -p1 -b .rubyrake
 autoreconf ||:
 
 
@@ -290,6 +294,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 15 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.7-4
+- Fix for latest Ruby in Rawhide.  Fixes build failure identified
+  by mass rebuild yesterday.
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.7-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
