@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.7
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -173,7 +173,7 @@ ruby-%{name} contains Ruby bindings for %{name}.
 %patch0 -p1 -b .dirs
 %patch2 -p1 -b .rubyvendor
 %patch3 -p1 -b .rubyrake
-autoreconf ||:
+autoreconf -i
 
 
 %build
@@ -294,9 +294,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Feb 15 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.7-4
+* Fri Feb 15 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.7-5
 - Fix for latest Ruby in Rawhide.  Fixes build failure identified
   by mass rebuild yesterday.
+- Don't ignore error from running autoreconf.
 
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.7-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
