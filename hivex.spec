@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.7
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -159,7 +159,7 @@ python-%{name} contains Python bindings for %{name}.
 Summary:       Ruby bindings for %{name}
 Group:         Development/Libraries
 Requires:      %{name} = %{version}-%{release}
-Requires:      ruby(abi) = 1.9.1
+Requires:      ruby(release) = 2.0.0
 Requires:      ruby
 Provides:      ruby(hivex) = %{version}
 
@@ -294,6 +294,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Mar 13 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.7-7
+- Rebuild for Ruby 2.0.0.
+- Change ruby(abi) to ruby(release).
+
 * Fri Feb 15 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.7-6
 - Fix for latest Ruby in Rawhide.  Fixes build failure identified
   by mass rebuild yesterday.
