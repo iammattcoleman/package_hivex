@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.7
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 Group:          Development/Libraries
@@ -294,6 +294,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 17 2013 Petr Pisar <ppisar@redhat.com> - 1.3.7-8
+- Perl 5.18 rebuild
+
 * Wed Mar 13 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.7-7
 - Rebuild for Ruby 2.0.0.
 - Change ruby(abi) to ruby(release).
