@@ -6,15 +6,21 @@
 %endif
 
 Name:           hivex
-Version:        1.3.7
-Release:        8%{?dist}
+Version:        1.3.8
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
-Group:          Development/Libraries
 License:        LGPLv2
 URL:            http://libguestfs.org/
+
 Source0:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+# Fix Perl directory install path.
+Patch0:         %{name}-1.3.8-dirs.patch
+
+# Use VENDOR*DIR instead of SITE*DIR (not yet upstream).
+Patch2:         ruby-vendor-not-site.patch
+BuildRequires:  autoconf, automake, libtool, gettext-devel
 
 BuildRequires:  perl
 BuildRequires:  perl-Test-Simple
@@ -37,16 +43,6 @@ BuildRequires:  libxml2-devel
 # This library used to be part of libguestfs.  It won't install alongside
 # the old version of libguestfs that included this library:
 Conflicts:      libguestfs <= 1:1.0.84
-
-# Fix Perl directory install path.
-Patch0:         %{name}-1.2.3-dirs.patch
-
-# Use VENDOR*DIR instead of SITE*DIR (not yet upstream).
-Patch2:         ruby-1.9-vendor-not-site.patch
-BuildRequires:  autoconf, automake, libtool, gettext-devel
-
-# Fix for newest Ruby (upstream since 2013-02-15).
-Patch3:         0001-ruby-Use-updated-rake-package-names-but-allow-fallba.patch
 
 # https://fedoraproject.org/wiki/Packaging:No_Bundled_Libraries#Packages_granted_exceptions
 Provides:      bundled(gnulib)
@@ -85,7 +81,6 @@ For Ruby bindings, see 'ruby-hivex'.
 
 %package devel
 Summary:        Development tools and libraries for %{name}
-Group:          Development/Libraries
 Requires:       %{name} = %{version}-%{release}
 Requires:       pkgconfig
 
@@ -97,7 +92,6 @@ for %{name}.
 
 %package static
 Summary:        Statically linked library for %{name}
-Group:          Development/Libraries
 Requires:       %{name} = %{version}-%{release}
 
 
@@ -109,7 +103,6 @@ for %{name}.
 %if %{with ocaml}
 %package -n ocaml-%{name}
 Summary:       OCaml bindings for %{name}
-Group:         Development/Libraries
 Requires:      %{name} = %{version}-%{release}
 
 
@@ -122,7 +115,6 @@ programs which use %{name} you will also need ocaml-%{name}-devel.
 
 %package -n ocaml-%{name}-devel
 Summary:       OCaml bindings for %{name}
-Group:         Development/Libraries
 Requires:      ocaml-%{name} = %{version}-%{release}
 
 
@@ -134,7 +126,6 @@ required to use the OCaml bindings for %{name}.
 
 %package -n perl-%{name}
 Summary:       Perl bindings for %{name}
-Group:         Development/Libraries
 Requires:      %{name} = %{version}-%{release}
 Requires:      perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
@@ -145,7 +136,6 @@ perl-%{name} contains Perl bindings for %{name}.
 
 %package -n python-%{name}
 Summary:       Python bindings for %{name}
-Group:         Development/Libraries
 Requires:      %{name} = %{version}-%{release}
 
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
@@ -157,7 +147,6 @@ python-%{name} contains Python bindings for %{name}.
 
 %package -n ruby-%{name}
 Summary:       Ruby bindings for %{name}
-Group:         Development/Libraries
 Requires:      %{name} = %{version}-%{release}
 Requires:      ruby(release) = 2.0.0
 Requires:      ruby
@@ -172,7 +161,6 @@ ruby-%{name} contains Ruby bindings for %{name}.
 
 %patch0 -p1 -b .dirs
 %patch2 -p1 -b .rubyvendor
-%patch3 -p1 -b .rubyrake
 autoreconf -i
 
 
@@ -194,7 +182,6 @@ rm -f  $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs/*hivex*
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
 # Remove unwanted libtool *.la file:
@@ -211,17 +198,12 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 %find_lang %{name}
 
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
 
 
 %files -f %{name}.lang
-%defattr(-,root,root,-)
 %doc README LICENSE
 %{_bindir}/hivexget
 %{_bindir}/hivexml
@@ -235,7 +217,6 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files devel
-%defattr(-,root,root,-)
 %doc LICENSE
 %{_libdir}/libhivex.so
 %{_mandir}/man3/hivex.3*
@@ -244,14 +225,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files static
-%defattr(-,root,root,-)
 %doc LICENSE
 %{_libdir}/libhivex.a
 
 
 %if %{with ocaml}
 %files -n ocaml-%{name}
-%defattr(-,root,root,-)
 %doc README
 %{_libdir}/ocaml/hivex
 %exclude %{_libdir}/ocaml/hivex/*.a
@@ -263,7 +242,6 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files -n ocaml-%{name}-devel
-%defattr(-,root,root,-)
 %{_libdir}/ocaml/hivex/*.a
 %{_libdir}/ocaml/hivex/*.cmxa
 %{_libdir}/ocaml/hivex/*.cmx
@@ -272,14 +250,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files -n perl-%{name}
-%defattr(-,root,root,-)
 %{perl_vendorarch}/*
 %{_mandir}/man3/Win::Hivex.3pm*
 %{_mandir}/man3/Win::Hivex::Regedit.3pm*
 
 
 %files -n python-%{name}
-%defattr(-,root,root,-)
 %{python_sitearch}/*.py
 %{python_sitearch}/*.pyc
 %{python_sitearch}/*.pyo
@@ -287,13 +263,22 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files -n ruby-%{name}
-%defattr(-,root,root,-)
 %doc ruby/doc/site/*
 %{ruby_vendorlibdir}/hivex.rb
 %{ruby_vendorarchdir}/_hivex.so
 
 
 %changelog
+* Thu Jul 25 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.8-1
+- New upstream version 1.3.8.
+- Fixes handling of keys which use ri-records, for both reading and
+  writing (RHBZ#717583, RHBZ#987463).
+- Remove upstream patch.
+- Rebase dirs patch against new upstream sources.
+- Rebase ruby patch against new upstream sources.
+- Modernize the RPM spec file.
+- Fix .gitignore.
+
 * Wed Jul 17 2013 Petr Pisar <ppisar@redhat.com> - 1.3.7-8
 - Perl 5.18 rebuild
 
@@ -304,7 +289,7 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Feb 15 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.7-6
 - Fix for latest Ruby in Rawhide.  Fixes build failure identified
   by mass rebuild yesterday.
-- Don't ignore error from running autoreconf.
+- Do not ignore error from running autoreconf.
 
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.7-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
