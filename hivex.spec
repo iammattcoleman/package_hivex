@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -269,6 +269,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Sun Sep  8 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.8-2
+- Bump and rebuild, since ARM package still appears to depend on Perl 5.16.
+
 * Thu Jul 25 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.8-1
 - New upstream version 1.3.8.
 - Fixes handling of keys which use ri-records, for both reading and
