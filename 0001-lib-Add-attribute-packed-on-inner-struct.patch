@@ -1,0 +1,27 @@
+From 90ad0ca20e3dfddeb5e78008eb1909a27c581e8e Mon Sep 17 00:00:00 2001
+From: "Richard W.M. Jones" <rjones@redhat.com>
+Date: Tue, 10 Sep 2013 18:10:08 +0100
+Subject: [PATCH] lib: Add attribute((packed)) on inner struct.
+
+Apparently this attribute is not "inherited" from the outer struct to
+the inner struct.
+---
+ lib/hivex-internal.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/hivex-internal.h b/lib/hivex-internal.h
+index 1d1083a..66ab65a 100644
+--- a/lib/hivex-internal.h
++++ b/lib/hivex-internal.h
+@@ -155,7 +155,7 @@ struct ntreg_lf_record {
+   struct {
+     uint32_t offset;            /* offset of nk-record for this subkey */
+     char hash[4];               /* hash of subkey name */
+-  } keys[1];
++  } __attribute__((__packed__)) keys[1];
+ } __attribute__((__packed__));
+ 
+ struct ntreg_ri_record {
+-- 
+1.8.3.1
+

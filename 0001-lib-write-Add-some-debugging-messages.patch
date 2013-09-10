@@ -1,0 +1,38 @@
+From 72548197b17bf1027fe8578fdacdb09e0c7bfd4d Mon Sep 17 00:00:00 2001
+From: "Richard W.M. Jones" <rjones@redhat.com>
+Date: Tue, 10 Sep 2013 14:16:54 +0100
+Subject: [PATCH] lib/write: Add some debugging messages.
+
+---
+ lib/write.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/lib/write.c b/lib/write.c
+index c4a8ddb..8515350 100644
+--- a/lib/write.c
++++ b/lib/write.c
+@@ -559,8 +559,11 @@ insert_subkey (hive_h *h, const char *name,
+    * indirectly from some ri-record in blocks[].  Since we can update
+    * either of these in-place, we don't need to do this recursively.
+    */
+-  if (le32toh (parent_nk->subkey_lf) + 0x1000 == old_offs)
++  if (le32toh (parent_nk->subkey_lf) + 0x1000 == old_offs) {
++    DEBUG (2, "replacing parent_nk->subkey_lf 0x%zx -> 0x%zx",
++           old_offs, new_offs);
+     parent_nk->subkey_lf = htole32 (new_offs - 0x1000);
++  }
+   else {
+     for (i = 0; blocks[i] != 0; ++i) {
+       if (BLOCK_ID_EQ (h, blocks[i], "ri")) {
+@@ -568,6 +571,8 @@ insert_subkey (hive_h *h, const char *name,
+           (struct ntreg_ri_record *) ((char *) h->addr + blocks[i]);
+         for (j = 0; j < le16toh (ri->nr_offsets); ++j)
+           if (le32toh (ri->offset[j] + 0x1000) == old_offs) {
++            DEBUG (2, "replacing ri (0x%zx) ->offset[%zu] 0x%zx -> 0x%zx",
++                   blocks[i], j, old_offs, new_offs);
+             ri->offset[j] = htole32 (new_offs - 0x1000);
+             goto found_it;
+           }
+-- 
+1.8.3.1
+
