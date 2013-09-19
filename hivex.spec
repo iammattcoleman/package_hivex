@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.8
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -279,6 +279,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Thu Sep 19 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.8-4
+- OCaml 4.01.0 rebuild.
+
 * Tue Sep 10 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.8-3
 - Include various upstream patches to fix endianness problems on ppc64.
 
