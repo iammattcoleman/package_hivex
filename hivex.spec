@@ -6,8 +6,8 @@
 %endif
 
 Name:           hivex
-Version:        1.3.8
-Release:        4%{?dist}
+Version:        1.3.9
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -17,16 +17,6 @@ Source0:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz
 
 # Fix Perl directory install path.
 Patch0:         %{name}-1.3.8-dirs.patch
-
-# Use VENDOR*DIR instead of SITE*DIR (not yet upstream).
-Patch2:         ruby-vendor-not-site.patch
-BuildRequires:  autoconf, automake, libtool, gettext-devel
-
-# Various ppc64 bug fixes (all upstream after 1.3.8):
-Patch3:         0001-lib-Add-attribute-packed-on-inner-struct.patch
-Patch4:         0001-lib-write-Add-some-debugging-messages.patch
-Patch5:         0001-ppc-Fix-endianness-bug-which-caused-node_add_child-t.patch
-Patch6:         0001-ppc-iconv-Source-is-UTF-16LE-not-just-UTF-16.patch
 
 BuildRequires:  perl
 BuildRequires:  perl-Test-Simple
@@ -166,17 +156,10 @@ ruby-%{name} contains Ruby bindings for %{name}.
 %setup -q
 
 %patch0 -p1 -b .dirs
-%patch2 -p1 -b .rubyvendor
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-autoreconf -i
-
 
 %build
 %configure
-make %{?_smp_mflags}
+make V=1 INSTALLDIRS=vendor %{?_smp_mflags}
 
 
 %check
@@ -192,7 +175,7 @@ rm -f  $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs/*hivex*
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT INSTALLDIRS=vendor
 
 # Remove unwanted libtool *.la file:
 rm $RPM_BUILD_ROOT%{_libdir}/libhivex.la
@@ -279,6 +262,10 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Fri Jan 17 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.9-1
+- New upstream version 1.3.9.
+- Remove patches which are now upstream.
+
 * Thu Sep 19 2013 Richard W.M. Jones <rjones@redhat.com> - 1.3.8-4
 - OCaml 4.01.0 rebuild.
 
