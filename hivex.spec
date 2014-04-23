@@ -6,8 +6,8 @@
 %endif
 
 Name:           hivex
-Version:        1.3.9
-Release:        2%{?dist}
+Version:        1.3.10
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -264,6 +264,10 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Wed Apr 23 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.10-1
+- New upstream version 1.3.10.
+- Fix ruby test failures (RHBZ#1090407).
+
 * Fri Jan 17 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.9-2
 - New upstream version 1.3.9.
 - Remove patches which are now upstream.
