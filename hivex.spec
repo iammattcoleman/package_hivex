@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -264,6 +264,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Thu Apr 24 2014 Vít Ondruch <vondruch@redhat.com> - 1.3.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Changes/Ruby_2.1
+
 * Wed Apr 23 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.10-1
 - New upstream version 1.3.10.
 - Fix ruby test failures (RHBZ#1090407).
