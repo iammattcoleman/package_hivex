@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.10
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -145,7 +145,7 @@ python-%{name} contains Python bindings for %{name}.
 %package -n ruby-%{name}
 Summary:       Ruby bindings for %{name}
 Requires:      %{name} = %{version}-%{release}
-Requires:      ruby(release) = 2.0.0
+Requires:      ruby(release)
 Requires:      ruby
 Provides:      ruby(hivex) = %{version}
 
@@ -264,6 +264,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Fri May 02 2014 Vít Ondruch <vondruch@redhat.com> - 1.3.10-4
+- Remove the ruby(release) version. It is not needed.
+
 * Fri May 02 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.10-3
 - Rebuild to fix Ruby dependencies problem.
 
