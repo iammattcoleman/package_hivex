@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.10
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -264,6 +264,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Tue Jul 22 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.10-6
+- OCaml 4.02.0 beta rebuild.
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.10-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
