@@ -6,8 +6,8 @@
 %endif
 
 Name:           hivex
-Version:        1.3.10
-Release:        12%{?dist}
+Version:        1.3.11
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -251,9 +251,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %files -n python-%{name}
-%{python_sitearch}/*.py
-%{python_sitearch}/*.pyc
-%{python_sitearch}/*.pyo
+%{python_sitearch}/hivex/*.py
+%{python_sitearch}/hivex/*.pyc
+%{python_sitearch}/hivex/*.pyo
 %{python_sitearch}/*.so
 
 
@@ -264,6 +264,10 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Thu Oct 30 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-1
+- New upstream version 1.3.11.
+- Python objects are now placed in a hivex/ subdirectory.
+
 * Wed Sep 03 2014 Jitka Plesnikova <jplesnik@redhat.com> - 1.3.10-12
 - Perl 5.20 rebuild
 
