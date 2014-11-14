@@ -1,0 +1,31 @@
+From 99b613b1c1d326702b2bb527f20d555d7c7e4ee7 Mon Sep 17 00:00:00 2001
+From: "Richard W.M. Jones" <rjones@redhat.com>
+Date: Fri, 14 Nov 2014 15:37:37 +0000
+Subject: [PATCH 2/2] lib: Increase HIVEX_MAX_VALUE_LEN to 8000000.
+
+I encountered a hive that contained a key of 3_886_561 bytes length in
+a key called 'HKLM\SYSTEM\ControlSet001\services\mfeavfk' (apparently
+belonging to "McAfee Anti-virus software").
+
+The previous limit was set arbitrarily at 2_000_000 bytes.  Increase
+it to cope with this larger key.
+---
+ lib/hivex-internal.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/hivex-internal.h b/lib/hivex-internal.h
+index e59084d..1613013 100644
+--- a/lib/hivex-internal.h
++++ b/lib/hivex-internal.h
+@@ -325,7 +325,7 @@ extern int _hivex_get_values (hive_h *h, hive_node_h node, hive_value_h **values
+ /* These limits are in place to stop really stupid stuff and/or exploits. */
+ #define HIVEX_MAX_SUBKEYS       15000
+ #define HIVEX_MAX_VALUES        10000
+-#define HIVEX_MAX_VALUE_LEN   2000000
++#define HIVEX_MAX_VALUE_LEN   8000000
+ #define HIVEX_MAX_ALLOCATION  1000000
+ 
+ #endif /* HIVEX_INTERNAL_H_ */
+-- 
+2.1.0
+

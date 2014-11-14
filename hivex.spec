@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -18,6 +18,10 @@ Source0:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz
 # Fix Perl directory install path.
 Patch0:         %{name}-1.3.8-dirs.patch
 BuildRequires:  autoconf, automake, libtool, gettext-devel
+
+# Pull in a couple of upstream fixes.
+Patch1:         0001-lib-write-fix-memory-leak.patch
+Patch2:         0002-lib-Increase-HIVEX_MAX_VALUE_LEN-to-8000000.patch
 
 BuildRequires:  perl
 BuildRequires:  perl-Test-Simple
@@ -158,6 +162,8 @@ ruby-%{name} contains Ruby bindings for %{name}.
 
 %patch0 -p1 -b .dirs
 autoreconf -i
+%patch1 -p1
+%patch2 -p1
 
 %build
 %configure
@@ -264,6 +270,11 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Fri Nov 14 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-2
+- Pull in a couple of upstream fixes:
+  * Fix memory leak in _hivex_get_children.
+  * Increase HIVEX_MAX_VALUE_LEN.
+
 * Thu Oct 30 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-1
 - New upstream version 1.3.11.
 - Python objects are now placed in a hivex/ subdirectory.

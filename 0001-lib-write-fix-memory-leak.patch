@@ -1,0 +1,33 @@
+From 62b885e5b6239ac925554063dadeff8eeee7f2fc Mon Sep 17 00:00:00 2001
+From: Pino Toscano <ptoscano@redhat.com>
+Date: Tue, 11 Nov 2014 11:36:30 +0100
+Subject: [PATCH 1/2] lib: write: fix memory leak
+
+Free the "blocks" array got from _hivex_get_children.
+
+Thanks: Mahmoud Al-Qudsi
+---
+ lib/write.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/lib/write.c b/lib/write.c
+index abd12c5..33b64e4 100644
+--- a/lib/write.c
++++ b/lib/write.c
+@@ -902,10 +902,13 @@ hivex_node_delete_child (hive_h *h, hive_node_h node)
+         }
+     }
+   }
++  free (blocks);
+   SET_ERRNO (ENOTSUP, "could not find parent to child link");
+   return -1;
+ 
+  found:;
++  free (blocks);
++
+   struct ntreg_nk_record *nk =
+     (struct ntreg_nk_record *) ((char *) h->addr + parent);
+   size_t nr_subkeys_in_nk = le32toh (nk->nr_subkeys);
+-- 
+2.1.0
+
