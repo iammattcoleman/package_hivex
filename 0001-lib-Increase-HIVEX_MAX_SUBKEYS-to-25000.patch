@@ -1,0 +1,28 @@
+From bec3f0bb632c4b84a1dfb73eb6333c2ba9834ffb Mon Sep 17 00:00:00 2001
+From: "Richard W.M. Jones" <rjones@redhat.com>
+Date: Thu, 20 Nov 2014 20:47:50 +0000
+Subject: [PATCH] lib: Increase HIVEX_MAX_SUBKEYS to 25000.
+
+Thanks Nicolas Ecarnot who found a HKLM\SOFTWARE hive from a Windows
+XP machine which had an nk containing 18254 subkeys ( > current limit
+of 15000).
+---
+ lib/hivex-internal.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/hivex-internal.h b/lib/hivex-internal.h
+index 1613013..1643469 100644
+--- a/lib/hivex-internal.h
++++ b/lib/hivex-internal.h
+@@ -323,7 +323,7 @@ extern int _hivex_get_values (hive_h *h, hive_node_h node, hive_value_h **values
+   } while (0)
+ 
+ /* These limits are in place to stop really stupid stuff and/or exploits. */
+-#define HIVEX_MAX_SUBKEYS       15000
++#define HIVEX_MAX_SUBKEYS       25000
+ #define HIVEX_MAX_VALUES        10000
+ #define HIVEX_MAX_VALUE_LEN   8000000
+ #define HIVEX_MAX_ALLOCATION  1000000
+-- 
+2.1.0
+

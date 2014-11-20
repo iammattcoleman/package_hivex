@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.11
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -19,9 +19,10 @@ Source0:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz
 Patch0:         %{name}-1.3.8-dirs.patch
 BuildRequires:  autoconf, automake, libtool, gettext-devel
 
-# Pull in a couple of upstream fixes.
+# Pull in some upstream fixes.
 Patch1:         0001-lib-write-fix-memory-leak.patch
 Patch2:         0002-lib-Increase-HIVEX_MAX_VALUE_LEN-to-8000000.patch
+Patch3:         0001-lib-Increase-HIVEX_MAX_SUBKEYS-to-25000.patch
 
 BuildRequires:  perl
 BuildRequires:  perl-Test-Simple
@@ -164,6 +165,7 @@ ruby-%{name} contains Ruby bindings for %{name}.
 autoreconf -i
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %configure
@@ -270,6 +272,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Thu Nov 20 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-3
+- Increase HIVEX_MAX_SUBKEYS.
+
 * Fri Nov 14 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-2
 - Pull in a couple of upstream fixes:
   * Fix memory leak in _hivex_get_children.
