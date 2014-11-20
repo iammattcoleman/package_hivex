@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.11
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -23,6 +23,7 @@ BuildRequires:  autoconf, automake, libtool, gettext-devel
 Patch1:         0001-lib-write-fix-memory-leak.patch
 Patch2:         0002-lib-Increase-HIVEX_MAX_VALUE_LEN-to-8000000.patch
 Patch3:         0001-lib-Increase-HIVEX_MAX_SUBKEYS-to-25000.patch
+Patch4:         0001-lib-Don-t-leak-errno-from-_hivex_recode-function.patch
 
 BuildRequires:  perl
 BuildRequires:  perl-Test-Simple
@@ -166,6 +167,7 @@ autoreconf -i
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %configure
@@ -272,8 +274,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
-* Thu Nov 20 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-3
+* Thu Nov 20 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-4
 - Increase HIVEX_MAX_SUBKEYS.
+- Don't leak errno E2BIG to callers.
 
 * Fri Nov 14 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-2
 - Pull in a couple of upstream fixes:
