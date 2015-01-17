@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.11
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -274,6 +274,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Sun Jan 18 2015 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.3.11-5
+- Rebuild for https://fedoraproject.org/wiki/Changes/Ruby_2.2
+
 * Thu Nov 20 2014 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-4
 - Increase HIVEX_MAX_SUBKEYS.
 - Don't leak errno E2BIG to callers.
