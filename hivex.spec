@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.11
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -59,8 +59,8 @@ and write to these files.
 'hivexsh' is a shell you can use to interactively navigate a hive
 binary file.
 
-'hivexregedit' lets you export and merge to the textual regedit
-format.
+'hivexregedit' (in perl-hivex) lets you export and merge to the
+textual regedit format.
 
 'hivexml' can be used to convert a hive file to a more useful XML
 format.
@@ -212,12 +212,10 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 %doc README LICENSE
 %{_bindir}/hivexget
 %{_bindir}/hivexml
-%{_bindir}/hivexregedit
 %{_bindir}/hivexsh
 %{_libdir}/libhivex.so.*
 %{_mandir}/man1/hivexget.1*
 %{_mandir}/man1/hivexml.1*
-%{_mandir}/man1/hivexregedit.1*
 %{_mandir}/man1/hivexsh.1*
 
 
@@ -258,6 +256,8 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 %{perl_vendorarch}/*
 %{_mandir}/man3/Win::Hivex.3pm*
 %{_mandir}/man3/Win::Hivex::Regedit.3pm*
+%{_bindir}/hivexregedit
+%{_mandir}/man1/hivexregedit.1*
 
 
 %files -n python-%{name}
@@ -274,6 +274,10 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Mon Mar  2 2015 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-7
+- Move hivexregedit to perl-hivex subpackage, since otherwise hivex
+  and hence libguestfs depends on perl (RHBZ#1194158).
+
 * Tue Feb 17 2015 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-6
 - ocaml-4.02.1 rebuild.
 
