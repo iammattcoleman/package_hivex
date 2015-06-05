@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.11
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -274,6 +274,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Fri Jun 05 2015 Jitka Plesnikova <jplesnik@redhat.com> - 1.3.11-8
+- Perl 5.22 rebuild
+
 * Mon Mar  2 2015 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-7
 - Move hivexregedit to perl-hivex subpackage, since otherwise hivex
   and hence libguestfs depends on perl (RHBZ#1194158).
