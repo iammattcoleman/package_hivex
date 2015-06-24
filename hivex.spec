@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.11
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -274,6 +274,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Wed Jun 24 2015 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-11
+- ocaml-4.02.2 final rebuild.
+
 * Wed Jun 17 2015 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-10
 - ocaml-4.02.2 rebuild.
 
