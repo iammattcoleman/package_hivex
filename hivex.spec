@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.11
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -26,12 +26,25 @@ Patch3:         0001-lib-Increase-HIVEX_MAX_SUBKEYS-to-25000.patch
 Patch4:         0001-lib-Don-t-leak-errno-from-_hivex_recode-function.patch
 
 BuildRequires:  perl
-BuildRequires:  perl-Test-Simple
-BuildRequires:  perl-Test-Pod
-BuildRequires:  perl-Test-Pod-Coverage
-BuildRequires:  perl-ExtUtils-MakeMaker
-BuildRequires:  perl-IO-stringy
-BuildRequires:  perl-libintl
+# Provides %{_bindir}/pod2html
+BuildRequires:  perl-Pod-Html
+# Provides %{_bindir}/pod2man
+BuildRequires:  perl-podlators
+BuildRequires:  perl(bytes)
+BuildRequires:  perl(Carp)
+BuildRequires:  perl(Encode)
+BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(Exporter)
+BuildRequires:  perl(IO::Scalar)
+BuildRequires:  perl(IO::Stringy)
+BuildRequires:  perl(strict)
+BuildRequires:  perl(Test::More)
+BuildRequires:  perl(utf8)
+BuildRequires:  perl(vars)
+BuildRequires:  perl(warnings)
+BuildRequires:  perl(XSLoader)
+BuildRequires:  perl(Test::Pod) >= 1.00
+BuildRequires:  perl(Test::Pod::Coverage) >= 1.00
 %if %{with ocaml}
 BuildRequires:  ocaml
 BuildRequires:  ocaml-findlib-devel
@@ -274,6 +287,11 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Thu Aug 27 2015 Petr Šabata <contyk@redhat.com> - 1.3.11-13
+- Correcting the perl build time dependency list
+  Switching to virtual perl()-style symbols
+  Dropping unused dependencies and adding some new to fix the FTBFS
+
 * Tue Jul 28 2015 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-12
 - OCaml 4.02.3 rebuild.
 
