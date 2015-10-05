@@ -1,13 +1,13 @@
-# conditionalize Ocaml support
-%ifarch sparc64 s390 s390x
-%bcond_with ocaml
-%else
+# Conditionalize Ocaml support.  This looks ass-backwards, but it's not.
+%ifarch %{ocaml_native_compiler}
 %bcond_without ocaml
+%else
+%bcond_with ocaml
 %endif
 
 Name:           hivex
-Version:        1.3.11
-Release:        13%{?dist}
+Version:        1.3.12
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -18,12 +18,6 @@ Source0:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz
 # Fix Perl directory install path.
 Patch0:         %{name}-1.3.8-dirs.patch
 BuildRequires:  autoconf, automake, libtool, gettext-devel
-
-# Pull in some upstream fixes.
-Patch1:         0001-lib-write-fix-memory-leak.patch
-Patch2:         0002-lib-Increase-HIVEX_MAX_VALUE_LEN-to-8000000.patch
-Patch3:         0001-lib-Increase-HIVEX_MAX_SUBKEYS-to-25000.patch
-Patch4:         0001-lib-Don-t-leak-errno-from-_hivex_recode-function.patch
 
 BuildRequires:  perl
 # Provides %{_bindir}/pod2html
@@ -176,11 +170,8 @@ ruby-%{name} contains Ruby bindings for %{name}.
 %setup -q
 
 %patch0 -p1 -b .dirs
-autoreconf -i
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+autoreconf -i --force
+
 
 %build
 %configure
@@ -287,6 +278,12 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Mon Oct  5 2015 Richard W.M. Jones <rjones@redhat.com> - 1.3.12-1
+- New upstream version 1.3.12.
+- Drop patches which are now upstream.
+- Use OCaml macros to test if OCaml native compiler is available.
+- Use autoreconf --force option.
+
 * Thu Aug 27 2015 Petr Šabata <contyk@redhat.com> - 1.3.11-13
 - Correcting the perl build time dependency list
   Switching to virtual perl()-style symbols
