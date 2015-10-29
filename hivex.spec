@@ -6,7 +6,7 @@
 %endif
 
 Name:           hivex
-Version:        1.3.12
+Version:        1.3.13
 Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
@@ -49,10 +49,6 @@ BuildRequires:  rubygem-rake
 BuildRequires:  rubygem(minitest)
 BuildRequires:  readline-devel
 BuildRequires:  libxml2-devel
-
-# This library used to be part of libguestfs.  It won't install alongside
-# the old version of libguestfs that included this library:
-Conflicts:      libguestfs <= 1:1.0.84
 
 # https://fedoraproject.org/wiki/Packaging:No_Bundled_Libraries#Packages_granted_exceptions
 Provides:      bundled(gnulib)
@@ -278,6 +274,10 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Thu Oct 29 2015 Richard W.M. Jones <rjones@redhat.com> - 1.3.13-1
+- New upstream version 1.3.13.
+- Drop ancient 'Conflicts' rule.
+
 * Mon Oct  5 2015 Richard W.M. Jones <rjones@redhat.com> - 1.3.12-1
 - New upstream version 1.3.12.
 - Drop patches which are now upstream.
