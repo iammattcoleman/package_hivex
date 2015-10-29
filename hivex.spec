@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.13
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -15,15 +15,9 @@ URL:            http://libguestfs.org/
 
 Source0:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz
 
-# Fix Perl directory install path.
-Patch0:         %{name}-1.3.8-dirs.patch
-BuildRequires:  autoconf, automake, libtool, gettext-devel
-
 BuildRequires:  perl
-# Provides %{_bindir}/pod2html
-BuildRequires:  perl-Pod-Html
-# Provides %{_bindir}/pod2man
-BuildRequires:  perl-podlators
+BuildRequires:  %{_bindir}/pod2html
+BuildRequires:  %{_bindir}/pod2man
 BuildRequires:  perl(bytes)
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Encode)
@@ -165,9 +159,6 @@ ruby-%{name} contains Ruby bindings for %{name}.
 %prep
 %setup -q
 
-%patch0 -p1 -b .dirs
-autoreconf -i --force
-
 
 %build
 %configure
@@ -274,9 +265,11 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
-* Thu Oct 29 2015 Richard W.M. Jones <rjones@redhat.com> - 1.3.13-1
+* Thu Oct 29 2015 Richard W.M. Jones <rjones@redhat.com> - 1.3.13-2
 - New upstream version 1.3.13.
 - Drop ancient 'Conflicts' rule.
+- Drop Perl patch for setting INSTALLDIRS.
+- Depend on pod2html, pod2man binaries explicitly.
 
 * Mon Oct  5 2015 Richard W.M. Jones <rjones@redhat.com> - 1.3.12-1
 - New upstream version 1.3.12.
