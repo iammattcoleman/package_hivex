@@ -40,7 +40,8 @@ BuildRequires:  ocaml-findlib-devel
 BuildRequires:  python-devel
 BuildRequires:  ruby-devel
 BuildRequires:  rubygem-rake
-BuildRequires:  rubygem(json)  # see also RHBZ#1325022
+# see also RHBZ#1325022
+BuildRequires:  rubygem(json)
 BuildRequires:  rubygem(minitest)
 BuildRequires:  rubygem(rdoc)
 BuildRequires:  readline-devel
