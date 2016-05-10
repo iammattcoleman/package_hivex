@@ -40,6 +40,7 @@ BuildRequires:  ocaml-findlib-devel
 BuildRequires:  python-devel
 BuildRequires:  ruby-devel
 BuildRequires:  rubygem-rake
+BuildRequires:  rubygem(json)  # see also RHBZ#1325022
 BuildRequires:  rubygem(minitest)
 BuildRequires:  rubygem(rdoc)
 BuildRequires:  readline-devel
@@ -267,7 +268,7 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 %changelog
 * Tue May 10 2016 Richard W.M. Jones <rjones@redhat.com> - 1.3.13-5
-- Explicitly BR rubygem(rdoc) RHBZ#1334753.
+- Explicitly BR rubygem(rdoc) RHBZ#1334753 and rubygem(json) RHBZ#1325022.
 
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.13-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
