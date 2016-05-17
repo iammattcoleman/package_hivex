@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.13
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -268,6 +268,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Tue May 17 2016 Jitka Plesnikova <jplesnik@redhat.com> - 1.3.13-6
+- Perl 5.24 rebuild
+
 * Tue May 10 2016 Richard W.M. Jones <rjones@redhat.com> - 1.3.13-5
 - Explicitly BR rubygem(rdoc) RHBZ#1334753 and rubygem(json) RHBZ#1325022.
 
