@@ -16,6 +16,8 @@ URL:            http://libguestfs.org/
 Source0:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz
 
 BuildRequires:  perl
+BuildRequires:  perl-devel
+BuildRequires:  perl-generators
 BuildRequires:  %{_bindir}/pod2html
 BuildRequires:  %{_bindir}/pod2man
 BuildRequires:  perl(bytes)
