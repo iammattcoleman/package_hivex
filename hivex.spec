@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.13
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -270,6 +270,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Sat Nov 05 2016 Richard W.M. Jones <rjones@redhat.com> - 1.3.13-8
+- Rebuild for OCaml 4.04.0.
+
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.13-7
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 
