@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.13
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -270,6 +270,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Fri Jan 13 2017 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.3.13-11
+- F-26: rebuild again for ruby24
+
 * Thu Jan 12 2017 Igor Gnatenko <ignatenko@redhat.com> - 1.3.13-10
 - Rebuild for readline 7.x
 
