@@ -7,7 +7,7 @@
 
 Name:           hivex
 Version:        1.3.13
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -270,6 +270,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.13-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Fri Jan 13 2017 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.3.13-11
 - F-26: rebuild again for ruby24
 
