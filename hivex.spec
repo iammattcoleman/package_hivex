@@ -5,15 +5,26 @@
 %bcond_with ocaml
 %endif
 
+# Verify tarball signature with GPGv2.
+%global verify_tarball_signature 1
+
 Name:           hivex
-Version:        1.3.13
-Release:        12%{?dist}
+Version:        1.3.14
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
 URL:            http://libguestfs.org/
 
 Source0:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz
+%if 0%{verify_tarball_signature}
+Source1:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz.sig
+%endif
+
+# Keyring used to verify tarball signature.
+%if 0%{verify_tarball_signature}
+Source2:       libguestfs.keyring
+%endif
 
 BuildRequires:  perl
 BuildRequires:  perl-devel
@@ -48,6 +59,9 @@ BuildRequires:  rubygem(minitest)
 BuildRequires:  rubygem(rdoc)
 BuildRequires:  readline-devel
 BuildRequires:  libxml2-devel
+%if 0%{verify_tarball_signature}
+BuildRequires: gnupg2
+%endif
 
 # https://fedoraproject.org/wiki/Packaging:No_Bundled_Libraries#Packages_granted_exceptions
 Provides:      bundled(gnulib)
@@ -162,6 +176,10 @@ ruby-%{name} contains Ruby bindings for %{name}.
 
 
 %prep
+%if 0%{verify_tarball_signature}
+tmphome="$(mktemp -d)"
+gpgv2 --homedir "$tmphome" --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
+%endif
 %setup -q
 
 
@@ -270,6 +288,10 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Fri Feb 17 2017 Richard W.M. Jones <rjones@redhat.com> - 1.3.14-1
+- New upstream version 1.3.14.
+- Add GPG signature and mechanics for checking it.
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.13-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
