@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.14
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -50,7 +50,8 @@ BuildRequires:  perl(Test::Pod::Coverage) >= 1.00
 BuildRequires:  ocaml
 BuildRequires:  ocaml-findlib-devel
 %endif
-BuildRequires:  python-devel
+BuildRequires:  python2-devel
+BuildRequires:  python3-devel
 BuildRequires:  ruby-devel
 BuildRequires:  rubygem-rake
 # see also RHBZ#1325022
@@ -93,7 +94,9 @@ For OCaml bindings, see 'ocaml-hivex-devel'.
 
 For Perl bindings, see 'perl-hivex'.
 
-For Python bindings, see 'python-hivex'.
+For Python 2 bindings, see 'python2-hivex'.
+
+For Python 3 bindings, see 'python3-hivex'.
 
 For Ruby bindings, see 'ruby-hivex'.
 
@@ -153,15 +156,24 @@ Requires:      perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $versio
 perl-%{name} contains Perl bindings for %{name}.
 
 
-%package -n python-%{name}
-Summary:       Python bindings for %{name}
+%package -n python2-%{name}
+Summary:       Python 2 bindings for %{name}
 Requires:      %{name} = %{version}-%{release}
 
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+# Can be removed in Fedora 29.
+Obsoletes:     python-%{name} < %{version}-%{release}
+Provides:      python-%{name} = %{version}-%{release}
 
-%description -n python-%{name}
-python-%{name} contains Python bindings for %{name}.
+%description -n python2-%{name}
+python2-%{name} contains Python 2 bindings for %{name}.
+
+
+%package -n python3-%{name}
+Summary:       Python 3 bindings for %{name}
+Requires:      %{name} = %{version}-%{release}
+
+%description -n python3-%{name}
+python3-%{name} contains Python 3 bindings for %{name}.
 
 
 %package -n ruby-%{name}
@@ -182,25 +194,35 @@ gpgv2 --homedir "$tmphome" --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %endif
 %setup -q
 
+# Build Python 3 bindings in a separate subdirectory.  We have to
+# build everything twice unfortunately.
+copy="$(mktemp -d)"
+cp -a . "$copy"
+mv "$copy" python3
+
 
 %build
-%configure
+%configure \
+%if !%{with ocaml}
+    --disable-ocaml \
+%endif
+    %{nil}
 make V=1 INSTALLDIRS=vendor %{?_smp_mflags}
 
-
-%check
-make check
-
-%if !%{with ocaml}
-# Delete OCaml files, in case the user had OCaml installed and it was
-# picked up by the configure script.
-# XXX Add ./configure --disable-ocaml upstream.
-rm -rf $RPM_BUILD_ROOT%{_libdir}/ocaml/hivex
-rm -f  $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs/*hivex*
-%endif
+pushd python3
+%configure \
+    PYTHON=/usr/bin/python3 \
+    --disable-ocaml --disable-perl --disable-ruby
+make V=1 INSTALLDIRS=vendor %{?_smp_mflags}
+popd
 
 
 %install
+# Install Python3 first so the "real" install below overwrites
+# everything else.
+pushd python3
+make install DESTDIR=$RPM_BUILD_ROOT INSTALLDIRS=vendor
+popd
 make install DESTDIR=$RPM_BUILD_ROOT INSTALLDIRS=vendor
 
 # Remove unwanted libtool *.la file:
@@ -212,9 +234,18 @@ find $RPM_BUILD_ROOT -name .packlist -delete
 find $RPM_BUILD_ROOT -name '*.bs' -delete
 
 # Remove unwanted Python files:
-rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
+rm $RPM_BUILD_ROOT%{python2_sitearch}/libhivexmod.la
+rm $RPM_BUILD_ROOT%{python3_sitearch}/libhivexmod.la
 
 %find_lang %{name}
+
+
+%check
+make check
+
+pushd python3
+make check
+popd
 
 
 %post -p /sbin/ldconfig
@@ -274,11 +305,14 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 %{_mandir}/man1/hivexregedit.1*
 
 
-%files -n python-%{name}
-%{python_sitearch}/hivex/*.py
-%{python_sitearch}/hivex/*.pyc
-%{python_sitearch}/hivex/*.pyo
-%{python_sitearch}/*.so
+%files -n python2-%{name}
+%{python2_sitearch}/hivex/
+%{python2_sitearch}/*.so
+
+
+%files -n python3-%{name}
+%{python3_sitearch}/hivex/
+%{python3_sitearch}/*.so
 
 
 %files -n ruby-%{name}
@@ -288,6 +322,9 @@ rm $RPM_BUILD_ROOT%{python_sitearch}/libhivexmod.la
 
 
 %changelog
+* Mon May 22 2017 Richard W.M. Jones <rjones@redhat.com> - 1.3.14-3
+- Create python2 and python3 subpackages (RHBZ#1453189).
+
 * Fri May 12 2017 Richard W.M. Jones <rjones@redhat.com> - 1.3.14-2
 - OCaml 4.04.1 rebuild.
 
