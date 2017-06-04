@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.14
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -322,6 +322,9 @@ popd
 
 
 %changelog
+* Sun Jun 04 2017 Jitka Plesnikova <jplesnik@redhat.com> - 1.3.14-4
+- Perl 5.26 rebuild
+
 * Mon May 22 2017 Richard W.M. Jones <rjones@redhat.com> - 1.3.14-3
 - Create python2 and python3 subpackages (RHBZ#1453189).
 
