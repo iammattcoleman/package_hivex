@@ -26,7 +26,7 @@ Source1:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz.s
 Source2:       libguestfs.keyring
 %endif
 
-BuildRequires:  perl
+BuildRequires:  perl-interpreter
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
 BuildRequires:  %{_bindir}/pod2html
