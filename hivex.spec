@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.14
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -138,6 +138,7 @@ programs which use %{name} you will also need ocaml-%{name}-devel.
 %package -n ocaml-%{name}-devel
 Summary:       OCaml bindings for %{name}
 Requires:      ocaml-%{name} = %{version}-%{release}
+Requires:      %{name}-devel = %{version}-%{release}
 
 
 %description -n ocaml-%{name}-devel
@@ -322,6 +323,9 @@ popd
 
 
 %changelog
+* Mon Sep 18 2017 Richard W.M. Jones <rjones@redhat.com> - 1.3.14-9
+- ocaml-hivex-devel should Require hivex-devel.
+
 * Mon Aug 07 2017 Richard W.M. Jones <rjones@redhat.com> - 1.3.14-8
 - OCaml 4.05.0 rebuild.
 
