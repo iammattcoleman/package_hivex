@@ -26,6 +26,10 @@ Source1:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz.s
 Source2:       libguestfs.keyring
 %endif
 
+# Upstream patches to fix string mutability.
+Patch1:        0001-generator-Use-Bytes-instead-of-String.patch
+Patch2:        0002-ocaml-t-hivex_200_write.ml-Use-Bytes-instead-of-Stri.patch
+
 BuildRequires:  perl-interpreter
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
@@ -194,6 +198,7 @@ tmphome="$(mktemp -d)"
 gpgv2 --homedir "$tmphome" --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %endif
 %setup -q
+%autopatch -p1
 
 # Build Python 3 bindings in a separate subdirectory.  We have to
 # build everything twice unfortunately.
@@ -324,10 +329,7 @@ popd
 
 %changelog
 * Wed Nov 08 2017 Richard W.M. Jones <rjones@redhat.com> - 1.3.14-12
-- Bump release and rebuild.
-
-* Wed Nov 08 2017 Richard W.M. Jones <rjones@redhat.com> - 1.3.14-11
-- Bump release and rebuild.
+- Fix string mutability.
 
 * Wed Nov 08 2017 Richard W.M. Jones <rjones@redhat.com> - 1.3.14-10
 - OCaml 4.06.0 rebuild.

@@ -1,0 +1,37 @@
+From 87de49cebbf028ebb0f9950ab9e8fed97807c86e Mon Sep 17 00:00:00 2001
+From: "Richard W.M. Jones" <rjones@redhat.com>
+Date: Wed, 8 Nov 2017 18:04:15 +0000
+Subject: [PATCH 1/2] generator: Use Bytes instead of String.
+
+---
+ generator/generator.ml | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/generator/generator.ml b/generator/generator.ml
+index 4125ae7..0401217 100755
+--- a/generator/generator.ml
++++ b/generator/generator.ml
+@@ -415,15 +415,15 @@ let failwithf fs = ksprintf failwith fs
+ let unique = let i = ref 0 in fun () -> incr i; !i
+ 
+ let replace_char s c1 c2 =
+-  let s2 = String.copy s in
++  let s2 = Bytes.of_string s in
+   let r = ref false in
+-  for i = 0 to String.length s2 - 1 do
+-    if String.unsafe_get s2 i = c1 then (
+-      String.unsafe_set s2 i c2;
++  for i = 0 to String.length s - 1 do
++    if String.unsafe_get s i = c1 then (
++      Bytes.unsafe_set s2 i c2;
+       r := true
+     )
+   done;
+-  if not !r then s else s2
++  if not !r then s else Bytes.to_string s2
+ 
+ let isspace c =
+   c = ' '
+-- 
+2.13.1
+
