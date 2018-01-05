@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.14
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -328,6 +328,9 @@ popd
 
 
 %changelog
+* Fri Jan 05 2018 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.3.14-13
+- F-28: rebuild for ruby25
+
 * Wed Nov 08 2017 Richard W.M. Jones <rjones@redhat.com> - 1.3.14-12
 - Fix string mutability.
 
