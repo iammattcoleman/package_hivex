@@ -9,8 +9,8 @@
 %global verify_tarball_signature 1
 
 Name:           hivex
-Version:        1.3.14
-Release:        15%{?dist}
+Version:        1.3.15
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -25,10 +25,6 @@ Source1:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz.s
 %if 0%{verify_tarball_signature}
 Source2:       libguestfs.keyring
 %endif
-
-# Upstream patches to fix string mutability.
-Patch1:        0001-generator-Use-Bytes-instead-of-String.patch
-Patch2:        0002-ocaml-t-hivex_200_write.ml-Use-Bytes-instead-of-Stri.patch
 
 BuildRequires:  perl-interpreter
 BuildRequires:  perl-devel
@@ -328,6 +324,9 @@ popd
 
 
 %changelog
+* Mon Feb 26 2018 Richard W.M. Jones <rjones@redhat.com> - 1.3.15-1
+- New upstream version 1.3.15.
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.14-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
