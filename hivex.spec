@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.15
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -25,6 +25,11 @@ Source1:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz.s
 %if 0%{verify_tarball_signature}
 Source2:       libguestfs.keyring
 %endif
+
+# Upstream patch to fix injection of LDFLAGS.
+# https://bugzilla.redhat.com/show_bug.cgi?id=1548536
+Patch1:         0001-ocaml-Link-the-C-bindings-with-LDFLAGS-RHBZ-1548536.patch
+BuildRequires:  autoconf, automake, libtool, gettext-devel
 
 BuildRequires:  perl-interpreter
 BuildRequires:  perl-devel
@@ -196,6 +201,9 @@ gpgv2 --homedir "$tmphome" --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %setup -q
 %autopatch -p1
 
+# Because the patch touches Makefile.am, rerun autotools.
+autoreconf -i -f
+
 # Build Python 3 bindings in a separate subdirectory.  We have to
 # build everything twice unfortunately.
 copy="$(mktemp -d)"
@@ -324,6 +332,9 @@ popd
 
 
 %changelog
+* Mon Mar 19 2018 Richard W.M. Jones <rjones@redhat.com> - 1.3.15-3
+- Add upstream patch to fix injection of LDFLAGS (RHBZ#1548536).
+
 * Thu Mar  1 2018 Florian Weimer <fweimer@redhat.com> - 1.3.15-2
 - Rebuild with new redhat-rpm-config/perl build flags
 
