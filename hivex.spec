@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.15
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -332,6 +332,9 @@ popd
 
 
 %changelog
+* Tue Jun 19 2018 Miro Hrončok <mhroncok@redhat.com> - 1.3.15-4
+- Rebuilt for Python 3.7
+
 * Mon Mar 19 2018 Richard W.M. Jones <rjones@redhat.com> - 1.3.15-3
 - Add upstream patch to fix injection of LDFLAGS (RHBZ#1548536).
 
