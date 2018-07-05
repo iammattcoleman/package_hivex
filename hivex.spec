@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.15
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -258,11 +258,6 @@ make check
 popd
 
 
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
-
-
 %files -f %{name}.lang
 %doc README LICENSE
 %{_bindir}/hivexget
@@ -332,6 +327,10 @@ popd
 
 
 %changelog
+* Thu Jul 05 2018 Richard W.M. Jones <rjones@redhat.com> - 1.3.15-8
+- Remove ldconfig
+  https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/SU3LJVDZ7LUSJGZR5MS72BMRAFP3PQQL/
+
 * Tue Jul 03 2018 Petr Pisar <ppisar@redhat.com> - 1.3.15-7
 - Perl 5.28 rebuild
 
