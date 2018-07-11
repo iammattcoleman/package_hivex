@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.15
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -327,6 +327,9 @@ popd
 
 
 %changelog
+* Wed Jul 11 2018 Richard W.M. Jones <rjones@redhat.com> - 1.3.15-10
+- OCaml 4.07.0 (final) rebuild.
+
 * Fri Jul 06 2018 Petr Pisar <ppisar@redhat.com> - 1.3.15-9
 - Perl 5.28 rebuild
 
