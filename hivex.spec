@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.15
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -327,6 +327,9 @@ popd
 
 
 %changelog
+* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.15-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Wed Jul 11 2018 Richard W.M. Jones <rjones@redhat.com> - 1.3.15-10
 - OCaml 4.07.0 (final) rebuild.
 
