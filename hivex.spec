@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.15
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -55,7 +55,6 @@ BuildRequires:  perl(Test::Pod::Coverage) >= 1.00
 BuildRequires:  ocaml
 BuildRequires:  ocaml-findlib-devel
 %endif
-BuildRequires:  python2-devel, python-unversioned-command
 BuildRequires:  python3-devel
 BuildRequires:  ruby-devel
 BuildRequires:  rubygem-rake
@@ -98,8 +97,6 @@ an existing Windows VM.
 For OCaml bindings, see 'ocaml-hivex-devel'.
 
 For Perl bindings, see 'perl-hivex'.
-
-For Python 2 bindings, see 'python2-hivex'.
 
 For Python 3 bindings, see 'python3-hivex'.
 
@@ -162,18 +159,6 @@ Requires:      perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $versio
 perl-%{name} contains Perl bindings for %{name}.
 
 
-%package -n python2-%{name}
-Summary:       Python 2 bindings for %{name}
-Requires:      %{name} = %{version}-%{release}
-
-# Can be removed in Fedora 29.
-Obsoletes:     python-%{name} < %{version}-%{release}
-Provides:      python-%{name} = %{version}-%{release}
-
-%description -n python2-%{name}
-python2-%{name} contains Python 2 bindings for %{name}.
-
-
 %package -n python3-%{name}
 Summary:       Python 3 bindings for %{name}
 Requires:      %{name} = %{version}-%{release}
@@ -204,35 +189,18 @@ gpgv2 --homedir "$tmphome" --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 # Because the patch touches Makefile.am, rerun autotools.
 autoreconf -i -f
 
-# Build Python 3 bindings in a separate subdirectory.  We have to
-# build everything twice unfortunately.
-copy="$(mktemp -d)"
-cp -a . "$copy"
-mv "$copy" python3
-
 
 %build
 %configure \
+    PYTHON=%{__python3} \
 %if !%{with ocaml}
     --disable-ocaml \
 %endif
     %{nil}
 make V=1 INSTALLDIRS=vendor %{?_smp_mflags}
 
-pushd python3
-%configure \
-    PYTHON=/usr/bin/python3 \
-    --disable-ocaml --disable-perl --disable-ruby
-make V=1 INSTALLDIRS=vendor %{?_smp_mflags}
-popd
-
 
 %install
-# Install Python3 first so the "real" install below overwrites
-# everything else.
-pushd python3
-make install DESTDIR=$RPM_BUILD_ROOT INSTALLDIRS=vendor
-popd
 make install DESTDIR=$RPM_BUILD_ROOT INSTALLDIRS=vendor
 
 # Remove unwanted libtool *.la file:
@@ -244,7 +212,6 @@ find $RPM_BUILD_ROOT -name .packlist -delete
 find $RPM_BUILD_ROOT -name '*.bs' -delete
 
 # Remove unwanted Python files:
-rm $RPM_BUILD_ROOT%{python2_sitearch}/libhivexmod.la
 rm $RPM_BUILD_ROOT%{python3_sitearch}/libhivexmod.la
 
 %find_lang %{name}
@@ -252,10 +219,6 @@ rm $RPM_BUILD_ROOT%{python3_sitearch}/libhivexmod.la
 
 %check
 make check
-
-pushd python3
-make check
-popd
 
 
 %files -f %{name}.lang
@@ -310,11 +273,6 @@ popd
 %{_mandir}/man1/hivexregedit.1*
 
 
-%files -n python2-%{name}
-%{python2_sitearch}/hivex/
-%{python2_sitearch}/*.so
-
-
 %files -n python3-%{name}
 %{python3_sitearch}/hivex/
 %{python3_sitearch}/*.so
@@ -327,6 +285,9 @@ popd
 
 
 %changelog
+* Thu Jan 10 2019 Miro Hrončok <mhroncok@redhat.com> - 1.3.15-12
+- Remove Python 2 subpackage
+
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.15-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
