@@ -9,8 +9,8 @@
 %global verify_tarball_signature 1
 
 Name:           hivex
-Version:        1.3.15
-Release:        12%{?dist}
+Version:        1.3.16
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -25,11 +25,6 @@ Source1:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz.s
 %if 0%{verify_tarball_signature}
 Source2:       libguestfs.keyring
 %endif
-
-# Upstream patch to fix injection of LDFLAGS.
-# https://bugzilla.redhat.com/show_bug.cgi?id=1548536
-Patch1:         0001-ocaml-Link-the-C-bindings-with-LDFLAGS-RHBZ-1548536.patch
-BuildRequires:  autoconf, automake, libtool, gettext-devel
 
 BuildRequires:  perl-interpreter
 BuildRequires:  perl-devel
@@ -186,9 +181,6 @@ gpgv2 --homedir "$tmphome" --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %setup -q
 %autopatch -p1
 
-# Because the patch touches Makefile.am, rerun autotools.
-autoreconf -i -f
-
 
 %build
 %configure \
@@ -285,6 +277,9 @@ make check
 
 
 %changelog
+* Thu Jan 17 2019 Richard W.M. Jones <rjones@redhat.com> - 1.3.16-1
+- New upstream version 1.3.16.
+
 * Thu Jan 10 2019 Miro Hrončok <mhroncok@redhat.com> - 1.3.15-12
 - Remove Python 2 subpackage
 
