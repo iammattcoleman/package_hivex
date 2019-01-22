@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.16
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -25,6 +25,9 @@ Source1:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz.s
 %if 0%{verify_tarball_signature}
 Source2:       libguestfs.keyring
 %endif
+
+# Upstream patch to fix regression of RHBZ#1145056.
+Patch1:         0001-lib-Reset-errno-to-zero-to-avoid-erroneously-returni.patch
 
 BuildRequires:  perl-interpreter
 BuildRequires:  perl-devel
@@ -277,6 +280,9 @@ make check
 
 
 %changelog
+* Tue Jan 22 2019 Richard W.M. Jones <rjones@redhat.com> - 1.3.16-2
+- Add upstream patch to fix regression of RHBZ#1145056.
+
 * Thu Jan 17 2019 Richard W.M. Jones <rjones@redhat.com> - 1.3.16-1
 - New upstream version 1.3.16.
 

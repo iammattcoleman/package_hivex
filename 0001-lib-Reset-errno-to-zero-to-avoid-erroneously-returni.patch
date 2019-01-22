@@ -1,0 +1,26 @@
+From ea732cfc0b8a6966fc4c4a60a6a09f45e8a63d71 Mon Sep 17 00:00:00 2001
+From: Michael Meyer <mmeyer@datto.com>
+Date: Tue, 22 Jan 2019 16:43:31 -0500
+Subject: [PATCH] lib: Reset errno to zero to avoid erroneously returning E2BIG
+
+This line was accidentally removed in 77fe74fc, causing
+bug #1145056 (Bugzilla) to resurface.
+---
+ lib/utf16.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/lib/utf16.c b/lib/utf16.c
+index e099548..67fa996 100644
+--- a/lib/utf16.c
++++ b/lib/utf16.c
+@@ -58,6 +58,7 @@ _hivex_recode (hive_h *h, recode_type t,
+       /* Reset errno here because we don't want to accidentally
+        * return E2BIG to a library caller.
+        */
++      errno = 0;
+       size_t prev = outalloc;
+       /* Try again with a larger output buffer. */
+       free (out);
+-- 
+2.20.1
+
