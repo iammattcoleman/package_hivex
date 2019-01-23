@@ -210,8 +210,15 @@ rm $RPM_BUILD_ROOT%{python3_sitearch}/libhivexmod.la
 
 
 %check
-make check
-
+if ! make check -k; then
+    for f in $( find -name test-suite.log | xargs grep -l ^FAIL: ); do
+        echo
+        echo "***" $f "***"
+        cat $f
+        echo
+    done
+    exit 1
+fi
 
 %files -f %{name}.lang
 %doc README LICENSE
