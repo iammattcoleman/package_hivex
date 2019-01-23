@@ -5,12 +5,16 @@
 %bcond_with ocaml
 %endif
 
+# This breaks gnulib tests.
+# https://lists.gnu.org/archive/html/bug-gnulib/2019-01/threads.html#00123
+%undefine _ld_as_needed
+
 # Verify tarball signature with GPGv2.
 %global verify_tarball_signature 1
 
 Name:           hivex
 Version:        1.3.17
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -284,6 +288,9 @@ fi
 
 
 %changelog
+* Wed Jan 23 2019 Richard W.M. Jones <rjones@redhat.com> - 1.3.17-2
+- Undefine _ld_as_needed which breaks gnulib tests.
+
 * Tue Jan 22 2019 Richard W.M. Jones <rjones@redhat.com> - 1.3.17-1
 - New upstream version 1.3.17.
 - Fixes regression of RHBZ#1145056.
