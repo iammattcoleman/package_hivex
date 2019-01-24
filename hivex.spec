@@ -5,10 +5,6 @@
 %bcond_with ocaml
 %endif
 
-# This breaks gnulib tests.
-# https://lists.gnu.org/archive/html/bug-gnulib/2019-01/threads.html#00123
-%undefine _ld_as_needed
-
 # Verify tarball signature with GPGv2.
 %global verify_tarball_signature 1
 
@@ -288,6 +284,8 @@ fi
 
 
 %changelog
+- Revert: Undefine _ld_as_needed which breaks gnulib tests.
+
 * Thu Jan 24 2019 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.3.17-3
 - F-30: rebuild against ruby26
 
