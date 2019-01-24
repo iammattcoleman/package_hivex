@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.18
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -284,6 +284,9 @@ fi
 
 
 %changelog
+* Thu Jan 24 2019 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.3.18-2
+- F-30: rebuild again against ruby26
+
 * Thu Jan 24 2019 Richard W.M. Jones <rjones@redhat.com> - 1.3.18-1
 - New upstream version 1.3.18.
 - Revert: Undefine _ld_as_needed which breaks gnulib tests.
