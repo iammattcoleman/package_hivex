@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.18
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -284,6 +284,9 @@ fi
 
 
 %changelog
+* Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.18-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Thu Jan 24 2019 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.3.18-2
 - F-30: rebuild again against ruby26
 
