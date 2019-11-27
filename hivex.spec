@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.18
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -175,8 +175,7 @@ ruby-%{name} contains Ruby bindings for %{name}.
 
 %prep
 %if 0%{verify_tarball_signature}
-tmphome="$(mktemp -d)"
-gpgv2 --homedir "$tmphome" --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %endif
 %setup -q
 %autopatch -p1
@@ -284,6 +283,9 @@ fi
 
 
 %changelog
+* Wed Nov 27 2019 Richard W.M. Jones <rjones@redhat.com> - 1.3.18-13
+- Use gpgverify macro instead of explicit gpgv2 command.
+
 * Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 1.3.18-12
 - Rebuilt for Python 3.8.0rc1 (#1748018)
 
