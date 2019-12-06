@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.18
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -283,6 +283,9 @@ fi
 
 
 %changelog
+* Fri Dec 06 2019 Richard W.M. Jones <rjones@redhat.com> - 1.3.18-14
+- OCaml 4.09.0 (final) rebuild.
+
 * Wed Nov 27 2019 Richard W.M. Jones <rjones@redhat.com> - 1.3.18-13
 - Use gpgverify macro instead of explicit gpgv2 command.
 
