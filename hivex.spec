@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.18
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -25,6 +25,10 @@ Source1:        http://libguestfs.org/download/hivex/%{name}-%{version}.tar.gz.s
 %if 0%{verify_tarball_signature}
 Source2:       libguestfs.keyring
 %endif
+
+# Patches - all upstream since 1.3.18.
+Patch0001:      0001-Win-Hivex-Regedit-Accept-CRLF-line-endings.patch
+Patch0002:      0002-Win-Hivex-Regedit-Ignore-comments.patch
 
 BuildRequires:  perl-interpreter
 BuildRequires:  perl-devel
@@ -283,6 +287,9 @@ fi
 
 
 %changelog
+* Wed Jan 29 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.18-20
+- Add a couple of upstream patches.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.18-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
