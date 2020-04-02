@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.18
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -287,6 +287,9 @@ fi
 
 
 %changelog
+* Thu Apr 02 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.18-22
+- Update all OCaml dependencies for RPM 4.16.
+
 * Wed Feb 26 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.18-21
 - OCaml 4.10.0 final.
 
