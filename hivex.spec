@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.18
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -287,6 +287,9 @@ fi
 
 
 %changelog
+* Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.18-26
+- Rebuilt for Python 3.9
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.18-25
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 
