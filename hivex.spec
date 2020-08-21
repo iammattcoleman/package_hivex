@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.19
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -293,6 +293,9 @@ fi
 
 
 %changelog
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.19-3
+- OCaml 4.11.0 rebuild
+
 * Thu Jul 30 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.19-2
 - Disable some failing gnulib tests.
 
