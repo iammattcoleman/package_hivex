@@ -214,8 +214,9 @@ rm $RPM_BUILD_ROOT%{python3_sitearch}/libhivexmod.la
 
 
 %check
-# Disable some gnulib tests which fail on Arm and POWER (2020-07):
-for f in test-float test-perror2 test-strerror_r; do
+# Disable some gnulib tests which fail on Arm and POWER and S/390
+# (2020-07, 2020-12):
+for f in test-float test-perror2 test-pthread_sigmask1 test-strerror_r; do
     pushd gnulib/tests
     make $f
     rm -f $f
