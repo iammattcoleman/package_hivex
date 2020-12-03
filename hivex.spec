@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.19
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -109,6 +109,7 @@ Requires:       pkgconfig
 for %{name}.
 
 
+%if !0%{?rhel}
 %package static
 Summary:        Statically linked library for %{name}
 Requires:       %{name} = %{version}-%{release}
@@ -117,6 +118,7 @@ Requires:       %{name} = %{version}-%{release}
 %description static
 %{name}-static contains the statically linked library
 for %{name}.
+%endif
 
 
 %if %{with ocaml}
@@ -187,6 +189,9 @@ ruby-%{name} contains Ruby bindings for %{name}.
 %if !%{with ocaml}
     --disable-ocaml \
 %endif
+%if 0%{?rhel}
+    --disable-static \
+%endif
     %{nil}
 make V=1 INSTALLDIRS=vendor %{?_smp_mflags}
 
@@ -248,9 +253,11 @@ fi
 %{_libdir}/pkgconfig/hivex.pc
 
 
+%if !0%{?rhel}
 %files static
 %doc LICENSE
 %{_libdir}/libhivex.a
+%endif
 
 
 %if %{with ocaml}
@@ -293,6 +300,9 @@ fi
 
 
 %changelog
+* Thu Dec 03 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.19-5
+- Disable static subpackage on RHEL.
+
 * Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.19-4
 - OCaml 4.11.1 rebuild
 
