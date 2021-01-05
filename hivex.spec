@@ -62,6 +62,7 @@ BuildRequires:  libxml2-devel
 %if 0%{verify_tarball_signature}
 BuildRequires: gnupg2
 %endif
+BuildRequires: make
 
 # https://fedoraproject.org/wiki/Packaging:No_Bundled_Libraries#Packages_granted_exceptions
 Provides:      bundled(gnulib)
