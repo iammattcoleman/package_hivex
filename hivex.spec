@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.19
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -302,6 +302,9 @@ fi
 
 
 %changelog
+* Thu Jan 07 2021 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.3.19-6
+- F-34: rebuild against ruby 3.0
+
 * Thu Dec 03 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.19-5
 - Disable static subpackage on RHEL.
 
