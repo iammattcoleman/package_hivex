@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.19
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -302,6 +302,9 @@ fi
 
 
 %changelog
+* Wed Jan 27 2021 Richard W.M. Jones <rjones@redhat.com> - 1.3.19-8
+- Bump and rebuild for s390.
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.19-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
