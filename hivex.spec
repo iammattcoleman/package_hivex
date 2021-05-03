@@ -9,8 +9,8 @@
 %global verify_tarball_signature 1
 
 Name:           hivex
-Version:        1.3.19
-Release:        10%{?dist}
+Version:        1.3.20
+Release:        1%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -302,6 +302,10 @@ fi
 
 
 %changelog
+* Mon May  3 2021 Richard W.M. Jones <rjones@redhat.com> - 1.3.20-1
+- New upstream version 1.3.20.
+- Fixes CVE-2021-3504 missing bounds check in hivex_open.
+
 * Tue Mar 30 2021 Richard W.M. Jones <rjones@redhat.com> - 1.3.19-10
 - Bump and rebuild for ELN.
 
