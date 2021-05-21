@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.20
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -302,6 +302,9 @@ fi
 
 
 %changelog
+* Fri May 21 2021 Jitka Plesnikova <jplesnik@redhat.com> - 1.3.20-2
+- Perl 5.34 rebuild
+
 * Mon May  3 2021 Richard W.M. Jones <rjones@redhat.com> - 1.3.20-1
 - New upstream version 1.3.20.
 - Fixes CVE-2021-3504 missing bounds check in hivex_open.
