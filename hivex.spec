@@ -302,6 +302,9 @@ fi
 
 
 %changelog
+* Wed Jun  2 2021 Richard W.M. Jones <rjones@redhat.com> - 1.3.20-2
+- Add gating tests (for RHEL 9)
+
 * Fri May 21 2021 Jitka Plesnikova <jplesnik@redhat.com> - 1.3.20-2
 - Perl 5.34 rebuild
 
