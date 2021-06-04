@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.20
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -302,6 +302,9 @@ fi
 
 
 %changelog
+* Fri Jun 04 2021 Python Maint <python-maint@redhat.com> - 1.3.20-4
+- Rebuilt for Python 3.10
+
 * Wed Jun  2 2021 Richard W.M. Jones <rjones@redhat.com> - 1.3.20-3
 - Add gating tests (for RHEL 9)
 
