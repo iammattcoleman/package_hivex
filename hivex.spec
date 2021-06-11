@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.20
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -237,7 +237,8 @@ if ! make check -k; then
 fi
 
 %files -f %{name}.lang
-%doc README LICENSE
+%doc README
+%license LICENSE
 %{_bindir}/hivexget
 %{_bindir}/hivexml
 %{_bindir}/hivexsh
@@ -248,7 +249,7 @@ fi
 
 
 %files devel
-%doc LICENSE
+%license LICENSE
 %{_libdir}/libhivex.so
 %{_mandir}/man3/hivex.3*
 %{_includedir}/hivex.h
@@ -257,7 +258,7 @@ fi
 
 %if !0%{?rhel}
 %files static
-%doc LICENSE
+%license LICENSE
 %{_libdir}/libhivex.a
 %endif
 
@@ -302,6 +303,9 @@ fi
 
 
 %changelog
+* Fri Jun 11 2021 Matt Coleman <matt@datto.com> - 1.3.20-5
+- Mark LICENSE as a license file
+
 * Fri Jun 04 2021 Python Maint <python-maint@redhat.com> - 1.3.20-4
 - Rebuilt for Python 3.10
 
