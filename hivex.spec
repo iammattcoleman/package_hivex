@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.20
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -64,6 +64,11 @@ BuildRequires: gnupg2
 %endif
 BuildRequires: make
 
+Requires:       %{name}-libs = %{version}-%{release}
+
+Conflicts:      %{name} < 1.3.20-6
+Obsoletes:      %{name} < 1.3.20-6
+
 # https://fedoraproject.org/wiki/Packaging:No_Bundled_Libraries#Packages_granted_exceptions
 Provides:      bundled(gnulib)
 
@@ -99,9 +104,19 @@ For Python 3 bindings, see 'python3-hivex'.
 For Ruby bindings, see 'ruby-hivex'.
 
 
+%package libs
+Summary:        Library for %{name}
+Conflicts:      %{name} < 1.3.20-6
+Obsoletes:      %{name} < 1.3.20-6
+
+
+%description libs
+%{name}-libs contains the library for %{name}.
+
+
 %package devel
 Summary:        Development tools and libraries for %{name}
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}-libs = %{version}-%{release}
 Requires:       pkgconfig
 
 
@@ -113,7 +128,7 @@ for %{name}.
 %if !0%{?rhel}
 %package static
 Summary:        Statically linked library for %{name}
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}-libs = %{version}-%{release}
 
 
 %description static
@@ -125,7 +140,7 @@ for %{name}.
 %if %{with ocaml}
 %package -n ocaml-%{name}
 Summary:       OCaml bindings for %{name}
-Requires:      %{name} = %{version}-%{release}
+Requires:      %{name}-libs = %{version}-%{release}
 
 
 %description -n ocaml-%{name}
@@ -149,7 +164,7 @@ required to use the OCaml bindings for %{name}.
 
 %package -n perl-%{name}
 Summary:       Perl bindings for %{name}
-Requires:      %{name} = %{version}-%{release}
+Requires:      %{name}-libs = %{version}-%{release}
 Requires:      perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 
@@ -159,7 +174,7 @@ perl-%{name} contains Perl bindings for %{name}.
 
 %package -n python3-%{name}
 Summary:       Python 3 bindings for %{name}
-Requires:      %{name} = %{version}-%{release}
+Requires:      %{name}-libs = %{version}-%{release}
 
 %description -n python3-%{name}
 python3-%{name} contains Python 3 bindings for %{name}.
@@ -167,7 +182,7 @@ python3-%{name} contains Python 3 bindings for %{name}.
 
 %package -n ruby-%{name}
 Summary:       Ruby bindings for %{name}
-Requires:      %{name} = %{version}-%{release}
+Requires:      %{name}-libs = %{version}-%{release}
 Requires:      ruby(release)
 Requires:      ruby
 Provides:      ruby(hivex) = %{version}
@@ -242,10 +257,15 @@ fi
 %{_bindir}/hivexget
 %{_bindir}/hivexml
 %{_bindir}/hivexsh
-%{_libdir}/libhivex.so.*
 %{_mandir}/man1/hivexget.1*
 %{_mandir}/man1/hivexml.1*
 %{_mandir}/man1/hivexsh.1*
+
+
+%files libs
+%doc README
+%license LICENSE
+%{_libdir}/libhivex.so.*
 
 
 %files devel
@@ -303,6 +323,9 @@ fi
 
 
 %changelog
+* Fri Jun 11 2021 Matt Coleman <matt@datto.com> - 1.3.20-6
+- Move the library into a separate package: hivex-libs
+
 * Fri Jun 11 2021 Matt Coleman <matt@datto.com> - 1.3.20-5
 - Mark LICENSE as a license file
 
