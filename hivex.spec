@@ -10,7 +10,7 @@
 
 Name:           hivex
 Version:        1.3.20
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Read and write Windows Registry binary hive files
 
 License:        LGPLv2
@@ -128,7 +128,7 @@ for %{name}.
 %if !0%{?rhel}
 %package static
 Summary:        Statically linked library for %{name}
-Requires:       %{name}-libs = %{version}-%{release}
+Requires:       %{name}-devel = %{version}-%{release}
 
 
 %description static
@@ -323,6 +323,9 @@ fi
 
 
 %changelog
+* Mon Jun 14 2021 Matt Coleman <matt@datto.com> - 1.3.20-7
+- Correct the static package's dependency
+
 * Fri Jun 11 2021 Matt Coleman <matt@datto.com> - 1.3.20-6
 - Move the library into a separate package: hivex-libs
 
